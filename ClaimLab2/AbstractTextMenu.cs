@@ -12,6 +12,17 @@ namespace ClaimLab2
 
         protected virtual string PromptText { get; set; } = "Please choose an option listed above";
         
+        protected TextReader InputReader { get; }
+
+        // Derived classes are encouraged to add a default value for inputReader
+        // on their own constructors (default to null, which will end up using
+        // Console.In), so calling code won't have to specify it. But there is
+        // no default here, so that derived classes won't forget to specify it.
+        public AbstractTextMenu(TextReader inputReader)
+        {
+            InputReader = inputReader ?? Console.In;
+        }
+        
 
         public virtual void DoMenuLoop()
         {
@@ -23,6 +34,8 @@ namespace ClaimLab2
                 int index = GetUserSelectionIndex();
                 MenuItem selectedItem = MenuItems[index];
                 result = selectedItem.Action();
+                Console.WriteLine("Press any key to continue");
+                Console.ReadKey(true);
             } while (result == MenuResult.Continue);
         }
 
