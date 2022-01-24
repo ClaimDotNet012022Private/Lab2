@@ -16,6 +16,7 @@ namespace ClaimLab2
         {
             MenuItems = new List<MenuItem>
             {
+                new MenuItem("Show Classrooms", ShowClassrooms),
                 new MenuItem("Add Classroom", AddClassroom),
                 new MenuItem("Remove Classroom", RemoveClassroom),
                 new MenuItem("Classroom Details", OpenClassroomDetailMenu),
@@ -36,6 +37,23 @@ namespace ClaimLab2
             {
                 return null;
             }
+        }
+
+        public MenuResult ShowClassrooms()
+        {
+            if (_classRooms.Count == 0)
+            {
+                Console.WriteLine("There are no classrooms to display");
+            }
+
+            foreach (KeyValuePair<string,ClassRoom> kvp in _classRooms)
+            {
+                ClassRoom classroom = kvp.Value;
+                Console.WriteLine(classroom.Name);
+            }
+            Console.WriteLine();
+
+            return MenuResult.Continue;
         }
 
         public MenuResult AddClassroom()

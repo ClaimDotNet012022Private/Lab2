@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using ClaimLab2;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -257,7 +258,7 @@ TestValue2");
         }
         
         [TestMethod]
-        public void Test_RemoveClassroom_VEmptyList_ReturnsContinue()
+        public void Test_RemoveClassroom_EmptyList_ReturnsContinue()
         {
             // Arrange
             StringReader testInput = new StringReader($@"TestValue
@@ -273,6 +274,56 @@ TestValue2");
             
             
             
+            testInput.Dispose();
+        }
+        
+        
+        
+        
+        
+        [TestMethod]
+        public void Test_ShowClassrooms_ShowsClassroomNames()
+        {
+            // This test requires more complex setup because we need to
+            // capture the results of Console.Write()/Console.WriteLine().
+            // That alone makes things strange, but there's the added twist
+            // of not being able to use Console.Clear() while the console
+            // is redirected. So we have to be careful about when we
+            // redirect to a TextWriter and when we set it back to normal.
+            
+            // This test might not be possible because of the Console.Clear()
+            // issue. And if it is possible, future changes might make it
+            // impossible. So this test might end up getting removed.
+            
+            // Arrange
+            string expectedName1 = "TestValue1";
+            string expectedName2 = "TestValue2";
+            string expectedName3 = "TestValue3";
+            StringReader testInput = new StringReader($@"{expectedName1}
+{expectedName2}
+{expectedName3}
+");
+            TextWriter originalConsoleOut = Console.Out;
+            StringWriter testOutput = new StringWriter(); // Set this up, but don't use it yet.
+            MainTextMenu target = new MainTextMenu(testInput);
+
+            // Act
+            target.AddClassroom();
+            target.AddClassroom();
+            target.AddClassroom();
+            Console.SetOut(testOutput); // Redirect the output after all the classrooms are added
+            target.ShowClassrooms();
+            Console.SetOut(originalConsoleOut); // Set output back to normal
+            testOutput.Flush();
+            string actual = testOutput.GetStringBuilder().ToString();   // Magic incantation to get the output as a string
+
+            // Assert
+            Assert.IsTrue(actual.Contains(expectedName1));
+            Assert.IsTrue(actual.Contains(expectedName2));
+            Assert.IsTrue(actual.Contains(expectedName3));
+            
+            
+            testOutput.Dispose();
             testInput.Dispose();
         }
     }
