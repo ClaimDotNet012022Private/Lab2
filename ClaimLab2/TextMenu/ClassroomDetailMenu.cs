@@ -24,6 +24,7 @@ namespace ClaimLab2.TextMenu
                 new MenuItem("Show Students", ShowStudents),
                 new MenuItem("Add Student", AddStudent),
                 new MenuItem("Remove Student", RemoveStudent),
+                new MenuItem("Student Details", OpenStudentDetailMenu),
                 new MenuItem("Return to main menu", Quit),
             };
         }
@@ -94,6 +95,31 @@ namespace ClaimLab2.TextMenu
 
             return MenuResult.Continue;
         }
-        
+
+        public MenuResult OpenStudentDetailMenu()
+        {
+            if (!_classroom.HasStudents())
+            {
+                Console.WriteLine("There are no students.");
+                return MenuResult.Continue;
+            }
+
+            Student student;
+            do
+            {
+                Console.WriteLine("Please enter the student's name:");
+                string name = InputReader.ReadLine();
+                student = _classroom.GetStudent(name);
+                if (student is null)
+                {
+                    Console.WriteLine($"'{name}' is not a student.");
+                }
+            } while (student is null);
+
+            StudentDetailMenu newMenu = new StudentDetailMenu(student, InputReader);
+            newMenu.DoMenuLoop();
+
+            return MenuResult.Continue;
+        }
     }
 }
