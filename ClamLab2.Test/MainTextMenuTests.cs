@@ -87,5 +87,194 @@ TestValue2");
             
             testInput.Dispose();
         }
+        
+        [TestMethod]
+        public void Test_AddClassroom_ReturnsContinue()
+        {
+            // Arrange
+            StringReader testInput = new StringReader(@"TestValue1
+");
+            MenuResult expectedResult = MenuResult.Continue;
+            MainTextMenu target = new MainTextMenu(testInput);
+
+            // Act
+            MenuResult actual = target.AddClassroom();
+
+            // Assert
+            Assert.AreEqual(expectedResult, actual);
+            
+            
+            
+            testInput.Dispose();
+        }
+        
+        
+        
+        
+        [TestMethod]
+        public void Test_RemoveClassroom_EmptyList_MethodReturns()
+        {
+            // Arrange
+            StringReader testInput = new StringReader(@"");
+            MainTextMenu target = new MainTextMenu(testInput);
+
+            // Act
+            target.RemoveClassroom();
+
+            // No Assert.
+            // If the test ends, it succeeds.
+            // If the test runs forever (waiting for user input) or throws an exception, it fails.
+            // To see the test instead of running forever, we would need threads, which we aren't covering.
+
+
+            testInput.Dispose();
+        }
+        
+        [TestMethod]
+        public void Test_RemoveClassroom_ValidInput_ClassIsRemoved()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string removeName = inputName2;
+            StringReader testInput = new StringReader($@"{inputName1}
+{inputName2}
+{inputName3}
+{removeName}
+");
+
+            MainTextMenu target = new MainTextMenu(testInput);
+
+            // Act
+            target.AddClassroom();
+            target.AddClassroom();
+            target.AddClassroom();
+            target.RemoveClassroom();
+            ClassRoom actual = target.GetClassRoom(removeName);
+
+            // Assert
+            Assert.IsNull(actual);
+            
+            
+            
+            testInput.Dispose();
+        }
+        
+        [TestMethod]
+        public void Test_RemoveClassroom_ValidInput_OtherClassroomsNotRemoved()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string removeName = inputName2;
+            StringReader testInput = new StringReader($@"{inputName1}
+{inputName2}
+{inputName3}
+{removeName}
+");
+            MainTextMenu target = new MainTextMenu(testInput);
+
+            // Act
+            target.AddClassroom();
+            target.AddClassroom();
+            target.AddClassroom();
+            target.RemoveClassroom();
+            ClassRoom actual1 = target.GetClassRoom(inputName1);
+            ClassRoom actual3 = target.GetClassRoom(inputName3);
+
+            // Assert
+            Assert.IsNotNull(actual1);
+            Assert.AreEqual(inputName1, actual1.Name);
+            Assert.IsNotNull(actual3);
+            Assert.AreEqual(inputName3, actual3.Name);
+            
+            
+            
+            testInput.Dispose();
+        }
+        
+        [TestMethod]
+        public void Test_RemoveClassroom_IncorrectName_NoException()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string removeName1 = "DoesNotExist";
+            string removeName2 = inputName1;
+            StringReader testInput = new StringReader($@"{inputName1}
+{inputName2}
+{inputName3}
+{removeName1}
+{removeName1}
+{removeName2}
+");
+            string expectedName = "TestValue1";
+            MainTextMenu target = new MainTextMenu(testInput);
+
+            // Act
+            target.AddClassroom();
+            target.AddClassroom();
+            target.AddClassroom();
+            target.RemoveClassroom();
+
+            // No Assert. An exception will fail the test.
+            
+            
+            
+            testInput.Dispose();
+        }
+        
+        [TestMethod]
+        public void Test_RemoveClassroom_ValidInput_ReturnsContinue()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string removeName = inputName2;
+            StringReader testInput = new StringReader($@"{inputName1}
+{inputName2}
+{inputName3}
+{removeName}
+");
+            MenuResult expectedResult = MenuResult.Continue;
+            MainTextMenu target = new MainTextMenu(testInput);
+
+            // Act
+            target.AddClassroom();
+            target.AddClassroom();
+            target.AddClassroom();
+            MenuResult actual = target.RemoveClassroom();
+
+            // Assert
+            Assert.AreEqual(expectedResult, actual);
+            
+            
+            
+            testInput.Dispose();
+        }
+        
+        [TestMethod]
+        public void Test_RemoveClassroom_VEmptyList_ReturnsContinue()
+        {
+            // Arrange
+            StringReader testInput = new StringReader($@"TestValue
+");
+            MenuResult expectedResult = MenuResult.Continue;
+            MainTextMenu target = new MainTextMenu(testInput);
+
+            // Act
+            MenuResult actual = target.RemoveClassroom();
+
+            // Assert
+            Assert.AreEqual(expectedResult, actual);
+            
+            
+            
+            testInput.Dispose();
+        }
     }
 }
