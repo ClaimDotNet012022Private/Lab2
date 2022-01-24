@@ -13,6 +13,11 @@ namespace ClaimLab2.ClassStuff
             Name = name;
         }
 
+        public bool HasStudents()
+        {
+            return (_students.Count > 0);
+        }
+
         public Student GetStudent(string name)
         {
             bool exists = _students.TryGetValue(name, out Student student);
@@ -39,5 +44,9 @@ namespace ClaimLab2.ClassStuff
             return success;
         }
 
+        public bool TryRemoveStudent(string name)
+        {
+            return _students.Remove(name);
+        }
     }
 }
