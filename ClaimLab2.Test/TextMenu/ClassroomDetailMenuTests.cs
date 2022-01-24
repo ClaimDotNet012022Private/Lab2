@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace ClaimLab2.Test.TextMenu
 {
     [TestClass]
-    public class StudentDetailMenuTests
+    public class ClassroomDetailMenuTests
     {
         [TestMethod]
         public void Test_AddStudent_ValidInput_StudentIsAdded()
@@ -113,5 +113,102 @@ TestValue2");
             testInput.Dispose();
         }
         
+        
+        
+        
+        
+        [TestMethod]
+        public void Test_RemoveStudent_ValidInput_StudentIsRemoved()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string removeName = inputName3;
+            StringReader testInput = new StringReader($@"{inputName1}
+{inputName2}
+{inputName3}
+{removeName}
+");
+            Classroom classroom = new Classroom("TestClass");
+            ClassroomDetailMenu target = new ClassroomDetailMenu(classroom, testInput);
+
+            // Act
+            target.AddStudent();
+            target.AddStudent();
+            target.AddStudent();
+            target.RemoveStudent();
+            Student actual = target.GetStudent(removeName);
+
+            // Assert
+            Assert.IsNull(actual);
+            
+            
+            
+            testInput.Dispose();
+        }
+        
+        [TestMethod]
+        public void Test_RemoveStudent_ValidInput_ReturnsContinue()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string removeName = inputName3;
+            StringReader testInput = new StringReader($@"{inputName1}
+{inputName2}
+{inputName3}
+{removeName}
+");
+            MenuResult expected = MenuResult.Continue;
+            Classroom classroom = new Classroom("TestClass");
+            ClassroomDetailMenu target = new ClassroomDetailMenu(classroom, testInput);
+
+            // Act
+            target.AddStudent();
+            target.AddStudent();
+            target.AddStudent();
+            MenuResult actual = target.RemoveStudent();
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+            
+            
+            
+            testInput.Dispose();
+        }
+        
+        [TestMethod]
+        public void Test_RemoveStudent_DoesNotExist_ReturnsContinue()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string removeName1 = "DoesNotExist";
+            string removeName2 = inputName1;
+            StringReader testInput = new StringReader($@"{inputName1}
+{inputName2}
+{inputName3}
+{removeName1}
+{removeName2}
+");
+            MenuResult expected = MenuResult.Continue;
+            Classroom classroom = new Classroom("TestClass");
+            ClassroomDetailMenu target = new ClassroomDetailMenu(classroom, testInput);
+
+            // Act
+            target.AddStudent();
+            target.AddStudent();
+            target.AddStudent();
+            MenuResult actual = target.RemoveStudent();
+
+            // Assert.
+            Assert.AreEqual(expected, actual);
+            
+            
+            testInput.Dispose();
+        }
     }
 }

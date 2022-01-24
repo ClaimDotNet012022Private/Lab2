@@ -92,5 +92,81 @@ namespace ClaimLab2.Test.ClassStuff
         }
         
         
+        
+        
+        [TestMethod]
+        public void Test_TryRemoveStudent_EmptyList_ReturnsFalse()
+        {
+            // Arrange
+            Classroom target = new Classroom("TestClass");
+
+            // Act
+            bool actual = target.TryRemoveStudent("DoesNotExist");
+
+            // Assert
+            Assert.IsFalse(actual);
+        }
+        
+        [TestMethod]
+        public void Test_TryRemoveStudent_DoesNotExist_ReturnsFalse()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string removeName = "DoesNotExist";
+            Classroom target = new Classroom("TestClass");
+
+            // Act
+            target.TryAddStudent(inputName1);
+            target.TryAddStudent(inputName2);
+            target.TryAddStudent(inputName3);
+            bool actual = target.TryRemoveStudent(removeName);
+
+            // Assert
+            Assert.IsFalse(actual);
+        }
+        
+        [TestMethod]
+        public void Test_TryRemoveStudent_ValidInput_StudentIsRemoved()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string removeName = inputName2;
+            Classroom target = new Classroom("TestClass");
+
+            // Act
+            target.TryAddStudent(inputName1);
+            target.TryAddStudent(inputName2);
+            target.TryAddStudent(inputName3);
+            target.TryRemoveStudent(removeName);
+            Student actual = target.GetStudent(removeName);
+
+            // Assert
+            Assert.IsNull(actual);
+        }
+        
+        [TestMethod]
+        public void Test_TryRemoveStudent_ValidInput_ReturnsTrue()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string removeName = inputName2;
+            Classroom target = new Classroom("TestClass");
+
+            // Act
+            target.TryAddStudent(inputName1);
+            target.TryAddStudent(inputName2);
+            target.TryAddStudent(inputName3);
+            bool actual = target.TryRemoveStudent(removeName);
+
+            // Assert
+            Assert.IsTrue(actual);
+        }
+        
     }
 }
