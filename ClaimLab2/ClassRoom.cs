@@ -8,5 +8,6 @@ namespace ClaimLab2
         {
             Name = name;
         }
+
     }
 }
