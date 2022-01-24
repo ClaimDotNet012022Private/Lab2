@@ -8,5 +8,13 @@ namespace ClaimLab2.ClassStuff
         {
             Name = name;
         }
+
+        public string GetSummary()
+        {
+            return $@"Name: {Name}
+Average Grade: (Not Implemented)
+All Assignments Complete: (Not Implemented)
+Number of Assignments: (Not Implemented)";
+        }
     }
 }

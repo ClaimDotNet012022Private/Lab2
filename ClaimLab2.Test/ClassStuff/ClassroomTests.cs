@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.IO;
 using ClaimLab2.ClassStuff;
 using ClaimLab2.TextMenu;
@@ -81,10 +82,10 @@ namespace ClaimLab2.Test.ClassStuff
             string inputName2 = "TestValue2";
             string inputName3 = "TestValue1";
             Classroom target = new Classroom("TestClass");
-
-            // Act
             target.TryAddStudent(inputName1);
             target.TryAddStudent(inputName2);
+
+            // Act
             bool actual = target.TryAddStudent(inputName3);
 
             // Assert
@@ -116,11 +117,11 @@ namespace ClaimLab2.Test.ClassStuff
             string inputName3 = "TestValue3";
             string removeName = "DoesNotExist";
             Classroom target = new Classroom("TestClass");
-
-            // Act
             target.TryAddStudent(inputName1);
             target.TryAddStudent(inputName2);
             target.TryAddStudent(inputName3);
+
+            // Act
             bool actual = target.TryRemoveStudent(removeName);
 
             // Assert
@@ -136,11 +137,11 @@ namespace ClaimLab2.Test.ClassStuff
             string inputName3 = "TestValue3";
             string removeName = inputName2;
             Classroom target = new Classroom("TestClass");
-
-            // Act
             target.TryAddStudent(inputName1);
             target.TryAddStudent(inputName2);
             target.TryAddStudent(inputName3);
+
+            // Act
             target.TryRemoveStudent(removeName);
             Student actual = target.GetStudent(removeName);
 
@@ -157,16 +158,55 @@ namespace ClaimLab2.Test.ClassStuff
             string inputName3 = "TestValue3";
             string removeName = inputName2;
             Classroom target = new Classroom("TestClass");
-
-            // Act
             target.TryAddStudent(inputName1);
             target.TryAddStudent(inputName2);
             target.TryAddStudent(inputName3);
+
+            // Act
             bool actual = target.TryRemoveStudent(removeName);
 
             // Assert
             Assert.IsTrue(actual);
         }
         
+        
+        
+        
+        
+        [TestMethod]
+        public void Test_GetStudentSummaries_EmptyList_ReturnsEmptyList()
+        {
+            // Arrange
+            int expected = 0;
+            Classroom target = new Classroom("TestClass");
+
+            // Act
+            List<string> summaries = target.GetStudentSummaries();
+            int actual = summaries.Count;
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+        
+        [TestMethod]
+        public void Test_GetStudentSummaries_NonEmptyList_ReturnsCorrectLength()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            int expected = 3;
+            Classroom target = new Classroom("TestClass");
+            target.TryAddStudent(inputName1);
+            target.TryAddStudent(inputName2);
+            target.TryAddStudent(inputName3);
+            
+            // Act
+            List<string> summaries = target.GetStudentSummaries();
+            int actual = summaries.Count;
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
