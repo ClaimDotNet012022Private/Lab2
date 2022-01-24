@@ -1,11 +1,10 @@
 using System;
 using System.IO;
-using ClaimLab2;
 using ClaimLab2.ClassStuff;
 using ClaimLab2.TextMenu;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace ClamLab2.Test
+namespace ClaimLab2.Test.TextMenu
 {
     [TestClass]
     public class MainTextMenuTests
