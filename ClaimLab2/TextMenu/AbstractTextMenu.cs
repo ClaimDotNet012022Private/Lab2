@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace ClaimLab2
+namespace ClaimLab2.TextMenu
 {
     public abstract class AbstractTextMenu
     {

@@ -1,4 +1,4 @@
-namespace ClaimLab2
+namespace ClaimLab2.TextMenu
 {
     public enum MenuResult
     {

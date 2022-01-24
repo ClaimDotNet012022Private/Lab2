@@ -1,15 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using ClaimLab2.ClassStuff;
 
-namespace ClaimLab2
+namespace ClaimLab2.TextMenu
 {
     public class MainTextMenu : AbstractTextMenu
     {
         protected override List<MenuItem> MenuItems { get; }
         protected override string HeaderText { get; } = "Classroom Grade Manager 2.0";
 
-        private readonly Dictionary<string, ClassRoom> _classRooms;
+        private readonly Dictionary<string, Classroom> _classRooms;
 
 
         public MainTextMenu(TextReader inputReader = null) : base(inputReader)
@@ -23,12 +24,12 @@ namespace ClaimLab2
                 new MenuItem("Exit Application", Quit)
             };
 
-            _classRooms = new Dictionary<string, ClassRoom>();
+            _classRooms = new Dictionary<string, Classroom>();
         }
 
-        public ClassRoom GetClassRoom(string name)
+        public Classroom GetClassRoom(string name)
         {
-            bool hasKey = _classRooms.TryGetValue(name, out ClassRoom result);
+            bool hasKey = _classRooms.TryGetValue(name, out Classroom result);
             if (hasKey)
             {
                 return result;
@@ -46,9 +47,9 @@ namespace ClaimLab2
                 Console.WriteLine("There are no classrooms to display");
             }
 
-            foreach (KeyValuePair<string,ClassRoom> kvp in _classRooms)
+            foreach (KeyValuePair<string,Classroom> kvp in _classRooms)
             {
-                ClassRoom classroom = kvp.Value;
+                Classroom classroom = kvp.Value;
                 Console.WriteLine(classroom.Name);
             }
             Console.WriteLine();
@@ -65,7 +66,7 @@ namespace ClaimLab2
                 Console.WriteLine("Please enter the name of the classroom to add:");
                 string className = InputReader.ReadLine();
 
-                succeeded = _classRooms.TryAdd(className, new ClassRoom(className));
+                succeeded = _classRooms.TryAdd(className, new Classroom(className));
 
                 if (!succeeded)
                 {
@@ -94,7 +95,7 @@ namespace ClaimLab2
             bool shouldOpen = PromptForExistingClassroom(out string className);
             if (shouldOpen)
             {
-                ClassRoom classroom = _classRooms[className];
+                Classroom classroom = _classRooms[className];
                 ClassroomDetailMenu detailMenu = new ClassroomDetailMenu(classroom, InputReader);
                 detailMenu.DoMenuLoop();
             }

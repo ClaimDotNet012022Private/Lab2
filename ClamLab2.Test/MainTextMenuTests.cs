@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using ClaimLab2;
+using ClaimLab2.ClassStuff;
+using ClaimLab2.TextMenu;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ClamLab2.Test
@@ -19,7 +21,7 @@ namespace ClamLab2.Test
 
             // Act
             target.AddClassroom();
-            ClassRoom actual = target.GetClassRoom(expectedName);
+            Classroom actual = target.GetClassRoom(expectedName);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -46,9 +48,9 @@ TestValue3");
             target.AddClassroom();
             target.AddClassroom();
             target.AddClassroom();
-            ClassRoom actual1 = target.GetClassRoom(expectedName1);
-            ClassRoom actual2 = target.GetClassRoom(expectedName2);
-            ClassRoom actual3 = target.GetClassRoom(expectedName3);
+            Classroom actual1 = target.GetClassRoom(expectedName1);
+            Classroom actual2 = target.GetClassRoom(expectedName2);
+            Classroom actual3 = target.GetClassRoom(expectedName3);
 
             // Assert
             Assert.IsNotNull(actual1);
@@ -78,7 +80,7 @@ TestValue2");
             target.AddClassroom();
             target.AddClassroom();
             
-            ClassRoom actual = target.GetClassRoom(expectedName);
+            Classroom actual = target.GetClassRoom(expectedName);
 
             // Assert
             Assert.IsNotNull(actual);
@@ -152,7 +154,7 @@ TestValue2");
             target.AddClassroom();
             target.AddClassroom();
             target.RemoveClassroom();
-            ClassRoom actual = target.GetClassRoom(removeName);
+            Classroom actual = target.GetClassRoom(removeName);
 
             // Assert
             Assert.IsNull(actual);
@@ -182,8 +184,8 @@ TestValue2");
             target.AddClassroom();
             target.AddClassroom();
             target.RemoveClassroom();
-            ClassRoom actual1 = target.GetClassRoom(inputName1);
-            ClassRoom actual3 = target.GetClassRoom(inputName3);
+            Classroom actual1 = target.GetClassRoom(inputName1);
+            Classroom actual3 = target.GetClassRoom(inputName3);
 
             // Assert
             Assert.IsNotNull(actual1);

@@ -1,6 +1,6 @@
 using System;
 
-namespace ClaimLab2
+namespace ClaimLab2.TextMenu
 {
     public class MenuItem
     {
