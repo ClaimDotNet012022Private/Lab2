@@ -6,7 +6,10 @@ namespace ClaimLab2
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            AbstractTextMenu mainMenu = new MainTextMenu();
+            mainMenu.DoMenuLoop();
         }
+
+        
     }
 }
