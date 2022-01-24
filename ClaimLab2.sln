@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClaimLab2", "ClaimLab2\ClaimLab2.csproj", "{075507D7-E8ED-46F8-8D5B-2618CDDAE208}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClamLab2.Test", "ClamLab2.Test\ClamLab2.Test.csproj", "{5CF9FA4A-FEBF-4759-9D69-B158CD3E3BFC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClaimLab2.Test", "ClaimLab2.Test\ClaimLab2.Test.csproj", "{5CF9FA4A-FEBF-4759-9D69-B158CD3E3BFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
