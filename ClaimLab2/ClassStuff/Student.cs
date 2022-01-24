@@ -1,13 +1,12 @@
-namespace ClaimLab2
+namespace ClaimLab2.ClassStuff
 {
-    public class ClassRoom
+    public class Student
     {
         public string Name { get; }
 
-        public ClassRoom(string name)
+        public Student(string name)
         {
             Name = name;
         }
-
     }
 }

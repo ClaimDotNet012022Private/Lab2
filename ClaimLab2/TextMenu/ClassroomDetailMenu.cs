@@ -1,0 +1,54 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using ClaimLab2.ClassStuff;
+
+namespace ClaimLab2.TextMenu
+{
+    public class ClassroomDetailMenu : AbstractTextMenu
+    {
+        protected override List<MenuItem> MenuItems { get; }
+        protected override string HeaderText { get; }
+        
+        private readonly Classroom _classroom;
+
+        
+        
+        public ClassroomDetailMenu(Classroom classroom, TextReader inputReader = null) 
+            : base(inputReader)
+        {
+            _classroom = classroom;
+            HeaderText = $"Classroom Details: {_classroom.Name}";
+            MenuItems = new List<MenuItem>
+            {
+                new MenuItem("Add Student", AddStudent),
+                new MenuItem("Return to main menu", Quit),
+            };
+        }
+
+        public Student GetStudent(string name)
+        {
+            return _classroom.GetStudent(name);
+        }
+
+        public MenuResult AddStudent()
+        {
+            bool success;
+
+            do
+            {
+                Console.WriteLine("Please enter the name of the student to add:");
+                string name = InputReader.ReadLine();
+                success = _classroom.TryAddStudent(name);
+
+                if (!success)
+                {
+                    Console.WriteLine($"'{name}' is invalid or already exists.");
+                }
+            } while (!success);
+
+            return MenuResult.Continue;
+        }
+        
+    }
+}
