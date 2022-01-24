@@ -10,7 +10,7 @@ namespace ClaimLab2
         
         protected abstract string HeaderText { get; }
 
-        protected virtual string PromptText { get; set; } = "Please choose an option listed above";
+        protected virtual string PromptText { get; set; } = "Please choose an option listed above:";
         
         protected TextReader InputReader { get; }
 
@@ -34,8 +34,11 @@ namespace ClaimLab2
                 int index = GetUserSelectionIndex();
                 MenuItem selectedItem = MenuItems[index];
                 result = selectedItem.Action();
-                Console.WriteLine("Press any key to continue");
-                Console.ReadKey(true);
+                if (result == MenuResult.Continue)
+                {
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey(true);
+                }
             } while (result == MenuResult.Continue);
         }
 
@@ -90,5 +93,10 @@ namespace ClaimLab2
 
             return selectionIndex;
         } 
+        
+        public virtual MenuResult Quit()
+        {
+            return MenuResult.End;
+        }
     }
 }
