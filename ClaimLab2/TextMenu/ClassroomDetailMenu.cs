@@ -21,6 +21,7 @@ namespace ClaimLab2.TextMenu
             HeaderText = $"Classroom Details: {_classroom.Name}";
             MenuItems = new List<MenuItem>
             {
+                new MenuItem("Show Students", ShowStudents),
                 new MenuItem("Add Student", AddStudent),
                 new MenuItem("Remove Student", RemoveStudent),
                 new MenuItem("Return to main menu", Quit),
@@ -30,6 +31,24 @@ namespace ClaimLab2.TextMenu
         public Student GetStudent(string name)
         {
             return _classroom.GetStudent(name);
+        }
+
+        public MenuResult ShowStudents()
+        {
+            List<string> summaries = _classroom.GetStudentSummaries();
+
+            if (summaries.Count == 0)
+            {
+                Console.WriteLine("There are no students to show.");
+            }
+
+            foreach (string summary in summaries)
+            {
+                Console.WriteLine(summary);
+                Console.WriteLine();
+            }
+
+            return MenuResult.Continue;
         }
 
         public MenuResult AddStudent()

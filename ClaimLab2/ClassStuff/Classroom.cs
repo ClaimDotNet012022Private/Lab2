@@ -48,5 +48,18 @@ namespace ClaimLab2.ClassStuff
         {
             return _students.Remove(name);
         }
+
+        public List<string> GetStudentSummaries()
+        {
+            List<string> summaries = new List<string>();
+            foreach (KeyValuePair<string,Student> kvp in _students)
+            {
+                Student student = kvp.Value;
+                string summary = student.GetSummary();
+                summaries.Add(summary);
+            }
+
+            return summaries;
+        }
     }
 }
