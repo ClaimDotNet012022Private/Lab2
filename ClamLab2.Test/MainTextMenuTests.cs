@@ -211,7 +211,6 @@ TestValue2");
 {removeName1}
 {removeName2}
 ");
-            string expectedName = "TestValue1";
             MainTextMenu target = new MainTextMenu(testInput);
 
             // Act

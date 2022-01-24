@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 
 namespace ClaimLab2
@@ -19,6 +18,7 @@ namespace ClaimLab2
             {
                 new MenuItem("Add Classroom", AddClassroom),
                 new MenuItem("Remove Classroom", RemoveClassroom),
+                new MenuItem("Classroom Details", OpenClassroomDetailMenu),
                 new MenuItem("Exit Application", Quit)
             };
 
@@ -60,36 +60,68 @@ namespace ClaimLab2
 
         public MenuResult RemoveClassroom()
         {
+            bool shouldRemove = PromptForExistingClassroom(out string className);
+
+            if (shouldRemove)
+            {
+                _classRooms.Remove(className);
+            }
+
+            return MenuResult.Continue;
+        }
+
+
+        public MenuResult OpenClassroomDetailMenu()
+        {
+            bool shouldOpen = PromptForExistingClassroom(out string className);
+            if (shouldOpen)
+            {
+                ClassRoom classroom = _classRooms[className];
+                ClassroomDetailMenu detailMenu = new ClassroomDetailMenu(classroom, InputReader);
+                detailMenu.DoMenuLoop();
+            }
+            
+            return MenuResult.Continue;
+        }
+        
+        public override MenuResult Quit()
+        {
+            Console.WriteLine("Exiting... Press any key.");
+            Console.ReadKey(true);
+            return MenuResult.End;
+        }
+        
+        
+        // Returns true if there are any classrooms to prompt for,
+        // false otherwise.
+        private bool PromptForExistingClassroom(out string className)
+        {
             // Don't want to get stuck asking the user for a class if
             // there isn't any class to remove.
             if (_classRooms.Count == 0)
             {
-                Console.WriteLine("There are no classrooms to remove.");
-                return MenuResult.Continue;
+                Console.WriteLine("There are no classrooms.");
+                {
+                    className = null;
+                    return false;
+                }
             }
-            
-            bool succeeded;
 
+            bool succeeded;
             do
             {
-                Console.WriteLine("Please enter the name of the classroom to add:");
-                string className = InputReader.ReadLine();
+                Console.WriteLine("Please enter the name of a classroom:");
+                className = InputReader.ReadLine() ?? "";
 
-                succeeded = _classRooms.Remove(className);
-                
+                succeeded = _classRooms.ContainsKey(className);
                 if (!succeeded)
                 {
                     Console.WriteLine($"'{className}' does not exist.");
                 }
             } while (!succeeded);
 
-            return MenuResult.Continue;
+            return true;
         }
-        
-        public MenuResult Quit()
-        {
-            Console.Write("Exiting... ");
-            return MenuResult.End;
-        }
+
     }
 }
