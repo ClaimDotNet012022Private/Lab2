@@ -139,98 +139,98 @@ TestValue2");
         
         
         
-//         [TestMethod]
-//         public void Test_RemoveStudent_ValidInput_StudentIsRemoved()
-//         {
-//             // Arrange
-//             string inputName1 = "TestValue1";
-//             string inputName2 = "TestValue2";
-//             string inputName3 = "TestValue3";
-//             string removeName = inputName3;
-//             StringReader testInput = new StringReader($@"{inputName1}
-// {inputName2}
-// {inputName3}
-// {removeName}
-// ");
-//             Student student = new Student("TestStudent");
-//             StudentDetailMenu target = new StudentDetailMenu(student, testInput);
-//
-//             // Act
-//             target.AddAssignment();
-//             target.AddAssignment();
-//             target.AddAssignment();
-//             target.RemoveStudent();
-//             Student actual = target.GetAssignment(removeName);
-//
-//             // Assert
-//             Assert.IsNull(actual);
-//             
-//             
-//             
-//             testInput.Dispose();
-//         }
+        [TestMethod]
+        public void Test_RemoveAssignment_ValidInput_AssignmentIsRemoved()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string removeName = inputName3;
+            StringReader testInput = new StringReader($@"{inputName1}
+{inputName2}
+{inputName3}
+{removeName}
+");
+            Student student = new Student("TestStudent");
+            StudentDetailMenu target = new StudentDetailMenu(student, testInput);
+
+            // Act
+            target.AddAssignment();
+            target.AddAssignment();
+            target.AddAssignment();
+            target.RemoveAssignment();
+            Assignment actual = target.GetAssignment(removeName);
+
+            // Assert
+            Assert.IsNull(actual);
+            
+            
+            
+            testInput.Dispose();
+        }
         
-//         [TestMethod]
-//         public void Test_RemoveStudent_ValidInput_ReturnsContinue()
-//         {
-//             // Arrange
-//             string inputName1 = "TestValue1";
-//             string inputName2 = "TestValue2";
-//             string inputName3 = "TestValue3";
-//             string removeName = inputName3;
-//             StringReader testInput = new StringReader($@"{inputName1}
-// {inputName2}
-// {inputName3}
-// {removeName}
-// ");
-//             MenuResult expected = MenuResult.Continue;
-//             Student student = new Student("TestStudent");
-//             StudentDetailMenu target = new StudentDetailMenu(student, testInput);
-//
-//             // Act
-//             target.AddAssignment();
-//             target.AddAssignment();
-//             target.AddAssignment();
-//             MenuResult actual = target.RemoveStudent();
-//
-//             // Assert
-//             Assert.AreEqual(expected, actual);
-//             
-//             
-//             
-//             testInput.Dispose();
-//         }
+        [TestMethod]
+        public void Test_RemoveAssignment_ValidInput_ReturnsContinue()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string removeName = inputName3;
+            StringReader testInput = new StringReader($@"{inputName1}
+{inputName2}
+{inputName3}
+{removeName}
+");
+            MenuResult expected = MenuResult.Continue;
+            Student student = new Student("TestStudent");
+            StudentDetailMenu target = new StudentDetailMenu(student, testInput);
+
+            // Act
+            target.AddAssignment();
+            target.AddAssignment();
+            target.AddAssignment();
+            MenuResult actual = target.RemoveAssignment();
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+            
+            
+            
+            testInput.Dispose();
+        }
         
-//         [TestMethod]
-//         public void Test_RemoveStudent_DoesNotExist_ReturnsContinue()
-//         {
-//             // Arrange
-//             string inputName1 = "TestValue1";
-//             string inputName2 = "TestValue2";
-//             string inputName3 = "TestValue3";
-//             string removeName1 = "DoesNotExist";
-//             string removeName2 = inputName1;
-//             StringReader testInput = new StringReader($@"{inputName1}
-// {inputName2}
-// {inputName3}
-// {removeName1}
-// {removeName2}
-// ");
-//             MenuResult expected = MenuResult.Continue;
-//             Student student = new Student("TestStudent");
-//             StudentDetailMenu target = new StudentDetailMenu(student, testInput);
-//
-//             // Act
-//             target.AddAssignment();
-//             target.AddAssignment();
-//             target.AddAssignment();
-//             MenuResult actual = target.RemoveStudent();
-//
-//             // Assert.
-//             Assert.AreEqual(expected, actual);
-//             
-//             
-//             testInput.Dispose();
-//         }
+        [TestMethod]
+        public void Test_RemoveAssignment_DoesNotExist_ReturnsContinue()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string removeName1 = "DoesNotExist";
+            string removeName2 = inputName1;
+            StringReader testInput = new StringReader($@"{inputName1}
+{inputName2}
+{inputName3}
+{removeName1}
+{removeName2}
+");
+            MenuResult expected = MenuResult.Continue;
+            Student student = new Student("TestStudent");
+            StudentDetailMenu target = new StudentDetailMenu(student, testInput);
+            target.AddAssignment();
+            target.AddAssignment();
+            target.AddAssignment();
+
+            // Act
+            MenuResult actual = target.RemoveAssignment();
+
+            // Assert.
+            Assert.AreEqual(expected, actual);
+            
+            
+            testInput.Dispose();
+        }
     }
 }

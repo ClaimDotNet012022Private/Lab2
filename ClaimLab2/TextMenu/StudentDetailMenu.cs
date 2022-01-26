@@ -22,6 +22,7 @@ namespace ClaimLab2.TextMenu
             MenuItems = new List<MenuItem>
             {
                 new MenuItem("Add Assignment", AddAssignment),
+                new MenuItem("Remove Assignment", RemoveAssignment),
                 new MenuItem("Return to Classroom Details", Quit),
             };
         }
@@ -43,6 +44,30 @@ namespace ClaimLab2.TextMenu
                 if (!isValid)
                 {
                     Console.WriteLine($"'{name}' already exists or is invalid.");
+                }
+            } while (!isValid);
+
+            return MenuResult.Continue;
+        }
+
+        public MenuResult RemoveAssignment()
+        {
+            if (!_student.HasAssignments())
+            {
+                Console.WriteLine("There are no assignments.");
+                return MenuResult.Continue;
+            }
+
+            bool isValid;
+            do
+            {
+                Console.WriteLine("Please enter the name of the assignment to remove:");
+                string name = InputReader.ReadLine();
+                isValid = _student.TryRemoveAssignment(name);
+
+                if (!isValid)
+                {
+                    Console.WriteLine($"'{name}' is invalid or does not exist.");
                 }
             } while (!isValid);
 
