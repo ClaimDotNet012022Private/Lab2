@@ -22,6 +22,11 @@ All Assignments Complete: (Not Implemented)
 Number of Assignments: (Not Implemented)";
         }
 
+        public bool HasAssignments()
+        {
+            return (_assignments.Count > 0);
+        }
+
         public Assignment GetAssignment(string name)
         {
             if (_assignments.TryGetValue(name, out Assignment assignment))
@@ -41,6 +46,11 @@ Number of Assignments: (Not Implemented)";
             
             _assignments.Add(name, new Assignment(name));
             return true;
+        }
+
+        public bool TryRemoveAssignment(string name)
+        {
+            return _assignments.Remove(name);
         }
     }
 }

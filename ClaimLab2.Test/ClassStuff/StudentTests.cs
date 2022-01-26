@@ -110,5 +110,83 @@ namespace ClaimLab2.Test.ClassStuff
             // Assert
             Assert.IsFalse(actual);
         }
+        
+        
+        
+        
+        [TestMethod]
+        public void Test_TryRemoveAssignment_EmptyList_ReturnsFalse()
+        {
+            // Arrange
+            Student target = new Student("DUMMY_VALUE");
+
+            // Act
+            bool actual = target.TryRemoveAssignment("DoesNotExist");
+
+            // Assert
+            Assert.IsFalse(actual);
+        }
+        
+        [TestMethod]
+        public void Test_TryRemoveAssignment_DoesNotExist_ReturnsFalse()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string removeName = "DoesNotExist";
+            Student target = new Student("DUMMY_VALUE");
+            target.TryAddAssignment(inputName1);
+            target.TryAddAssignment(inputName2);
+            target.TryAddAssignment(inputName3);
+
+            // Act
+            bool actual = target.TryRemoveAssignment(removeName);
+
+            // Assert
+            Assert.IsFalse(actual);
+        }
+        
+        [TestMethod]
+        public void Test_TryRemoveAssignment_ValidInput_AssignmentIsRemoved()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string removeName = inputName2;
+            Student target = new Student("DUMMY_VALUE");
+            target.TryAddAssignment(inputName1);
+            target.TryAddAssignment(inputName2);
+            target.TryAddAssignment(inputName3);
+
+            // Act
+            target.TryRemoveAssignment(removeName);
+            Assignment actual = target.GetAssignment(removeName);
+
+            // Assert
+            Assert.IsNull(actual);
+        }
+        
+        [TestMethod]
+        public void Test_TryRemoveAssignment_ValidInput_ReturnsTrue()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string removeName = inputName2;
+            Student target = new Student("DUMMY_VALUE");
+            target.TryAddAssignment(inputName1);
+            target.TryAddAssignment(inputName2);
+            target.TryAddAssignment(inputName3);
+
+            // Act
+            bool actual = target.TryRemoveAssignment(removeName);
+
+            // Assert
+            Assert.IsTrue(actual);
+        }
+        
     }
 }
