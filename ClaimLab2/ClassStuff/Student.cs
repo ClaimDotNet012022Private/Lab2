@@ -52,5 +52,17 @@ Number of Assignments: (Not Implemented)";
         {
             return _assignments.Remove(name);
         }
+
+        public bool TryGradeAssignment(string name, double grade)
+        {
+            if (!_assignments.TryGetValue(name, out Assignment assignment))
+            {
+                return false;
+            }
+
+            assignment.Grade = grade;
+            assignment.IsComplete = true;
+            return true;
+        }
     }
 }

@@ -188,5 +188,107 @@ namespace ClaimLab2.Test.ClassStuff
             Assert.IsTrue(actual);
         }
         
+        
+        
+        
+        [TestMethod]
+        public void Test_TryGradeAssignment_EmptyList_ReturnsFalse()
+        {
+            // Arrange
+            double grade = 42;
+            Student target = new Student("DUMMY_VALUE");
+
+            // Act
+            bool actual = target.TryGradeAssignment("DoesNotExist", grade);
+
+            // Assert
+            Assert.IsFalse(actual);
+        }
+        
+        [TestMethod]
+        public void Test_TryGradeAssignment_DoesNotExist_ReturnsFalse()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string nameToGrade = "DoesNotExist";
+            double grade = 42;
+            Student target = new Student("DUMMY_VALUE");
+            target.TryAddAssignment(inputName1);
+            target.TryAddAssignment(inputName2);
+            target.TryAddAssignment(inputName3);
+
+            // Act
+            bool actual = target.TryGradeAssignment(nameToGrade, grade);
+
+            // Assert
+            Assert.IsFalse(actual);
+        }
+        
+        [TestMethod]
+        public void Test_TryGradeAssignment_ValidInput_AssignmentIsCompleted()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string nameToGrade = inputName2;
+            double grade = 42;
+            Student target = new Student("DUMMY_VALUE");
+            target.TryAddAssignment(inputName1);
+            target.TryAddAssignment(inputName2);
+            target.TryAddAssignment(inputName3);
+
+            // Act
+            target.TryGradeAssignment(nameToGrade, grade);
+            Assignment actual = target.GetAssignment(nameToGrade);
+
+            // Assert
+            Assert.IsTrue(actual.IsComplete);
+        }
+        
+        [TestMethod]
+        public void Test_TryGradeAssignment_ValidInput_AssignmentHasCorrectGrade()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string nameToGrade = inputName2;
+            double expected = 42;
+            Student target = new Student("DUMMY_VALUE");
+            target.TryAddAssignment(inputName1);
+            target.TryAddAssignment(inputName2);
+            target.TryAddAssignment(inputName3);
+
+            // Act
+            target.TryGradeAssignment(nameToGrade, expected);
+            Assignment actual = target.GetAssignment(nameToGrade);
+
+            // Assert
+            Assert.AreEqual(expected, actual.Grade);
+        }
+        
+        [TestMethod]
+        public void Test_TryGradeAssignment_ValidInput_ReturnsTrue()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string removeName = inputName2;
+            double grade = 42;
+            Student target = new Student("DUMMY_VALUE");
+            target.TryAddAssignment(inputName1);
+            target.TryAddAssignment(inputName2);
+            target.TryAddAssignment(inputName3);
+
+            // Act
+            bool actual = target.TryGradeAssignment(removeName, grade);
+
+            // Assert
+            Assert.IsTrue(actual);
+        }
     }
 }
