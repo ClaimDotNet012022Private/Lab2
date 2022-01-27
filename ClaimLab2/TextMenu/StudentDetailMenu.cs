@@ -23,6 +23,7 @@ namespace ClaimLab2.TextMenu
             {
                 new MenuItem("Add Assignment", AddAssignment),
                 new MenuItem("Remove Assignment", RemoveAssignment),
+                new MenuItem("Grade Assignment", GradeAssignment),
                 new MenuItem("Return to Classroom Details", Quit),
             };
         }
@@ -68,6 +69,31 @@ namespace ClaimLab2.TextMenu
                 if (!isValid)
                 {
                     Console.WriteLine($"'{name}' is invalid or does not exist.");
+                }
+            } while (!isValid);
+
+            return MenuResult.Continue;
+        }
+
+        public MenuResult GradeAssignment()
+        {
+            bool isValid;
+            do
+            {
+                Console.WriteLine("Please enter the name of the assignment to grade:");
+                string name = InputReader.ReadLine();
+                Console.WriteLine("Please enter the grade:");
+                string gradeString = InputReader.ReadLine();
+
+                bool isGradeParsed = double.TryParse(gradeString, out double grade);
+                if (isGradeParsed)
+                {
+                    isValid = _student.TryGradeAssignment(name, grade);
+                }
+                else
+                {
+                    Console.WriteLine($"'{gradeString}' is not a valid grade.");
+                    isValid = false;
                 }
             } while (!isValid);
 
