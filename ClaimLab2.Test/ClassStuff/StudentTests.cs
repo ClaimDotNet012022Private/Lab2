@@ -290,5 +290,125 @@ namespace ClaimLab2.Test.ClassStuff
             // Assert
             Assert.IsTrue(actual);
         }
+        
+        
+        
+        
+        [TestMethod]
+        public void Test_GetAverageGrade_NoGradedAssignments_ReturnsNaN()
+        {
+            // I've chosen to ignore ungraded assignments for the average.
+            // That decision affects the existence of this test.
+            
+            
+            // Arrange
+            Student target = new Student("DUMMY_VALUE");
+            
+            
+
+            // Act
+            double actual = target.GetAverageGrade();
+
+            // Assert
+            Assert.IsTrue(double.IsNaN(actual));
+        }
+        
+        [TestMethod]
+        public void Test_GetAverageGrade_ValidInput_ReturnsCorrectAverage()
+        {
+            // I've chosen to ignore ungraded assignments for the average.
+            // That decision affects the outcome of this test.
+            
+            
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            double grade1 = 42;
+            double grade3 = 63;
+            double expected = 52.5;
+            Student target = new Student("DUMMY_VALUE");
+            target.TryAddAssignment(inputName1);
+            target.TryAddAssignment(inputName2);
+            target.TryAddAssignment(inputName3);
+            target.TryGradeAssignment(inputName1, grade1);
+            target.TryGradeAssignment(inputName3, grade3);
+            
+            
+
+            // Act
+            double actual = target.GetAverageGrade();
+
+            // Assert
+            Assert.AreEqual(expected, actual, 0.000001);
+        }
+        
+        
+        
+        
+        [TestMethod]
+        public void Test_AreAllAssignmentsComplete_NoAssignments_ReturnsTrue()
+        {
+            // Arrange
+            Student target = new Student("DUMMY_VALUE");
+
+            // Act
+            bool actual = target.AreAllAssignmentsComplete();
+
+            // Assert
+            Assert.IsTrue(actual);
+        }
+        
+        [TestMethod]
+        public void Test_AreAllAssignmentsComplete_No_ReturnsFalse()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            double grade1 = 42;
+            double grade3 = 63;
+            Student target = new Student("DUMMY_VALUE");
+            target.TryAddAssignment(inputName1);
+            target.TryAddAssignment(inputName2);
+            target.TryAddAssignment(inputName3);
+            target.TryGradeAssignment(inputName1, grade1);
+            target.TryGradeAssignment(inputName3, grade3);
+            
+            
+
+            // Act
+            bool actual = target.AreAllAssignmentsComplete();
+
+            // Assert
+            Assert.IsFalse(actual);
+        }
+        
+        [TestMethod]
+        public void Test_AreAllAssignmentsComplete_Yes_ReturnsTrue()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            double grade1 = 42;
+            double grade2 = 42;
+            double grade3 = 63;
+            Student target = new Student("DUMMY_VALUE");
+            target.TryAddAssignment(inputName1);
+            target.TryAddAssignment(inputName2);
+            target.TryAddAssignment(inputName3);
+            target.TryGradeAssignment(inputName1, grade1);
+            target.TryGradeAssignment(inputName2, grade2);
+            target.TryGradeAssignment(inputName3, grade3);
+            
+            
+
+            // Act
+            bool actual = target.AreAllAssignmentsComplete();
+
+            // Assert
+            Assert.IsTrue(actual);
+        }
     }
 }

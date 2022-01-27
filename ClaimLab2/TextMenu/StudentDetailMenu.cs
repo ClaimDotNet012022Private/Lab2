@@ -9,7 +9,10 @@ namespace ClaimLab2.TextMenu
     {
 
         protected override List<MenuItem> MenuItems { get; }
-        protected override string HeaderText { get; }
+        protected override string HeaderText
+        {
+            get { return _student.GetSummary(); }
+        }
 
         private readonly Student _student;
         
@@ -17,7 +20,6 @@ namespace ClaimLab2.TextMenu
             : base(inputReader)
         {
             _student = student;
-            HeaderText = $"Student Details: {student.Name}";
 
             MenuItems = new List<MenuItem>
             {
@@ -53,7 +55,7 @@ namespace ClaimLab2.TextMenu
 
         public MenuResult RemoveAssignment()
         {
-            if (!_student.HasAssignments())
+            if (_student.GetAssignmentCount() == 0)
             {
                 Console.WriteLine("There are no assignments.");
                 return MenuResult.Continue;
@@ -94,6 +96,11 @@ namespace ClaimLab2.TextMenu
                 {
                     Console.WriteLine($"'{gradeString}' is not a valid grade.");
                     isValid = false;
+                }
+
+                if (isGradeParsed && !isValid)
+                {
+                    Console.WriteLine($"'{name}' is not valid or does not exist.");
                 }
             } while (!isValid);
 

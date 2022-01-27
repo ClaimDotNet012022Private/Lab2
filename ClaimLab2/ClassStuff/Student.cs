@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ClaimLab2.ClassStuff
 {
@@ -17,14 +19,58 @@ namespace ClaimLab2.ClassStuff
         public string GetSummary()
         {
             return $@"Name: {Name}
-Average Grade: (Not Implemented)
-All Assignments Complete: (Not Implemented)
-Number of Assignments: (Not Implemented)";
+Average Grade: {GetAverageGrade()}
+All Assignments Complete: {AreAllAssignmentsComplete()}
+Number of Assignments: {GetAssignmentCount()}";
         }
 
-        public bool HasAssignments()
+        public int GetAssignmentCount()
         {
-            return (_assignments.Count > 0);
+            return _assignments.Count;
+        }
+
+        public double GetAverageGrade()
+        {
+            // Ignore ungraded/incomplete assignments.
+            // If there are no graded/complete assignments, then
+            // average is NaN (not a number.
+            int count = 0;
+            double sum = 0;
+            foreach (KeyValuePair<string,Assignment> kvp in _assignments)
+            {
+                Assignment assignment = kvp.Value;
+                if (assignment.IsComplete)
+                {
+                    count++;
+                    sum += assignment.Grade;
+                }
+            }
+            
+            // // We haven't covered LINQ yet, but this is an alternate solution.
+            // // The Select() and DefaultIfEmpty() are there because we have to
+            // // handle the possibility of no graded assignments.
+            // return _assignments.Values
+            //     .Where(a => a.IsComplete)
+            //     .Select(a => a.Grade)
+            //     .DefaultIfEmpty(Double.NaN)
+            //     .Average();
+
+            return sum / count;
+            
+            
+        }
+
+        public bool AreAllAssignmentsComplete()
+        {
+            foreach (KeyValuePair<string,Assignment> kvp in _assignments)
+            {
+                if (!kvp.Value.IsComplete)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         public Assignment GetAssignment(string name)
@@ -64,5 +110,6 @@ Number of Assignments: (Not Implemented)";
             assignment.IsComplete = true;
             return true;
         }
+        
     }
 }
