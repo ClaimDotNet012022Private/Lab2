@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ClaimLab2.ClassStuff;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -409,6 +410,41 @@ namespace ClaimLab2.Test.ClassStuff
 
             // Assert
             Assert.IsTrue(actual);
+        }
+        
+        
+        
+        
+        [TestMethod]
+        public void Test_ListAssignmentSummaries_NoAssignments_ReturnsEmpty()
+        {
+            // Arrange
+            int expected = 0;
+            Student target = new Student("DUMMY_VALUE");
+
+            // Act
+            List<string> actual = target.ListAssignmentSummaries();
+
+            // Assert
+            Assert.AreEqual(expected, actual.Count);
+        }
+        
+        
+        [TestMethod]
+        public void Test_ListAssignmentSummaries_HasAssignments_ReturnsList()
+        {
+            // Arrange
+            int expected = 3;
+            Student target = new Student("DUMMY_VALUE");
+            target.TryAddAssignment("TestValue1");
+            target.TryAddAssignment("TestValue2");
+            target.TryAddAssignment("TestValue3");
+
+            // Act
+            List<string> actual = target.ListAssignmentSummaries();
+
+            // Assert
+            Assert.AreEqual(expected, actual.Count);
         }
     }
 }
