@@ -26,6 +26,7 @@ namespace ClaimLab2.TextMenu
                 new MenuItem("Add Assignment", AddAssignment),
                 new MenuItem("Remove Assignment", RemoveAssignment),
                 new MenuItem("Grade Assignment", GradeAssignment),
+                new MenuItem("Show Summary", ShowSummary),
                 new MenuItem("Return to Classroom Details", Quit),
             };
         }
@@ -104,6 +105,12 @@ namespace ClaimLab2.TextMenu
                 }
             } while (!isValid);
 
+            return MenuResult.Continue;
+        }
+
+        public MenuResult ShowSummary()
+        {
+            Console.WriteLine(_student.GetSummary());
             return MenuResult.Continue;
         }
 
