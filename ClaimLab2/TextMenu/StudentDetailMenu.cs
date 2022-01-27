@@ -9,10 +9,7 @@ namespace ClaimLab2.TextMenu
     {
 
         protected override List<MenuItem> MenuItems { get; }
-        protected override string HeaderText
-        {
-            get { return _student.GetSummary(); }
-        }
+        protected override string HeaderText { get; }
 
         private readonly Student _student;
         
@@ -20,6 +17,8 @@ namespace ClaimLab2.TextMenu
             : base(inputReader)
         {
             _student = student;
+
+            HeaderText = $"Student Details: {student.Name}";
 
             MenuItems = new List<MenuItem>
             {
