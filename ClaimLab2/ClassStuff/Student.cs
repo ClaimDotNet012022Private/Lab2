@@ -110,6 +110,23 @@ Number of Assignments: {GetAssignmentCount()}";
             assignment.IsComplete = true;
             return true;
         }
+
+        public List<string> ListAssignmentSummaries()
+        {
+            List<string> results = new List<string>();
+
+            foreach (KeyValuePair<string,Assignment> kvp in _assignments)
+            {
+                results.Add(kvp.Value.GetSummary());
+            }
+            return results;
+
+            // LINQ version
+            // return _assignments.Values
+            //     .Select(a => a.GetSummary())
+            //     .ToList();
+            
+        }
         
     }
 }

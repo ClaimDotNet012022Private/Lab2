@@ -22,6 +22,7 @@ namespace ClaimLab2.TextMenu
 
             MenuItems = new List<MenuItem>
             {
+                new MenuItem("Show Assignments", ShowAssignments),
                 new MenuItem("Add Assignment", AddAssignment),
                 new MenuItem("Remove Assignment", RemoveAssignment),
                 new MenuItem("Grade Assignment", GradeAssignment),
@@ -110,6 +111,22 @@ namespace ClaimLab2.TextMenu
         public MenuResult ShowSummary()
         {
             Console.WriteLine(_student.GetSummary());
+            return MenuResult.Continue;
+        }
+
+        public MenuResult ShowAssignments()
+        {
+            List<string> assignments = _student.ListAssignmentSummaries();
+            if (assignments.Count == 0)
+            {
+                Console.WriteLine("There are no assignments.");
+            }
+
+            foreach (string assignment in assignments)
+            {
+                Console.WriteLine(assignment);
+            }
+
             return MenuResult.Continue;
         }
 
