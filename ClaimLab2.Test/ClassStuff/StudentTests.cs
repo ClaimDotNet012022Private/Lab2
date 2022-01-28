@@ -487,5 +487,43 @@ namespace ClaimLab2.Test.ClassStuff
             Assert.IsTrue(actual.Contains(name3));
             Assert.IsTrue(actual.Contains(grade3.ToString()));
         }
+        
+        [TestMethod]
+        public void Test_GetWorstAssignmentSummary_NoAssignments_ReturnsNull()
+        {
+            // Arrange
+            Student target = new Student("DUMMY_VALUE");
+
+            // Act
+            string actual = target.GetWorstAssignmentSummary();
+
+            // Assert
+            Assert.IsNull(actual);
+        }
+        
+        
+        [TestMethod]
+        public void Test_GetWorstAssignmentSummary_HasAssignments_ReturnsLowestGrade()
+        {
+            // Arrange
+            string name1 = "TestValue1";
+            string name2 = "TestValue2";
+            string name3 = "TestValue3";
+            double grade1 = 72.4;
+            double grade3 = 76.7;
+            Student target = new Student("DUMMY_VALUE");
+            target.TryAddAssignment(name1);
+            target.TryAddAssignment(name2);
+            target.TryAddAssignment(name3);
+            target.TryGradeAssignment(name1, grade1);
+            target.TryGradeAssignment(name3, grade3);
+
+            // Act
+            string actual = target.GetWorstAssignmentSummary();
+
+            // Assert
+            Assert.IsTrue(actual.Contains(name1));
+            Assert.IsTrue(actual.Contains(grade1.ToString()));
+        }
     }
 }

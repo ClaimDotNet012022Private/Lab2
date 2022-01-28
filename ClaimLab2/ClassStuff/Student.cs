@@ -71,6 +71,9 @@ Number of Assignments: {GetAssignmentCount()}";
             }
 
             return true;
+
+            // LINQ:
+            // return _assignments.Values.All(a => a.IsComplete);
         }
 
         public Assignment GetAssignment(string name)
@@ -162,6 +165,41 @@ Number of Assignments: {GetAssignmentCount()}";
             //         (accum, a) => accum is null || a.Grade > accum.Grade ? a : accum
             //     );
             // return best?.GetSummary();
+        }
+        
+        public string GetWorstAssignmentSummary()
+        {
+            Assignment worst = null;
+            foreach (KeyValuePair<string,Assignment> kvp in _assignments)
+            {
+                Assignment current = kvp.Value;
+                if (current.IsComplete)
+                {
+                    if (worst is null || current.Grade < worst.Grade)
+                    {
+                        worst = current;
+                    }
+                }
+            }
+            
+            if (worst is not null)
+            {
+                return worst.GetSummary();
+            }
+            else
+            {
+                return null;
+            }
+            
+            // LINQ version. Not tested, but I think it should work.
+            // Assignment worst = _assignments
+            //     .Values
+            //     .Where(a => a.IsComplete)
+            //     .Aggregate(
+            //         (Assignment)null, 
+            //         (accum, a) => accum is null || a.Grade < accum.Grade ? a : accum
+            //     );
+            // return worst?.GetSummary();
         }
         
     }

@@ -27,6 +27,7 @@ namespace ClaimLab2.TextMenu
                 new MenuItem("Remove Assignment", RemoveAssignment),
                 new MenuItem("Grade Assignment", GradeAssignment),
                 new MenuItem("Show Best Grade", ShowBestGrade),
+                new MenuItem("Show Worst Grade", ShowWorstGrade),
                 new MenuItem("Show Summary", ShowSummary),
                 new MenuItem("Return to Classroom Details", Quit),
             };
@@ -141,6 +142,24 @@ namespace ClaimLab2.TextMenu
             } 
             
             Console.WriteLine(bestSummary);
+
+            return MenuResult.Continue;
+        }
+        
+        public MenuResult ShowWorstGrade()
+        {
+            string bestSummary = _student.GetBestAssignmentSummary();
+
+            if (bestSummary is null)
+            {
+                bestSummary = "There are no graded assignments";
+            } 
+            
+            Console.WriteLine(bestSummary);
+            
+            // // Null-coalescing operator:
+            // string best = _student.GetBestAssignmentSummary() ?? "There are no graded assignments";
+            // Console.WriteLine(best);
 
             return MenuResult.Continue;
         }
