@@ -127,6 +127,42 @@ Number of Assignments: {GetAssignmentCount()}";
             //     .ToList();
             
         }
+
+
+        public string GetBestAssignmentSummary()
+        {
+            Assignment best = null;
+            foreach (KeyValuePair<string,Assignment> kvp in _assignments)
+            {
+                Assignment current = kvp.Value;
+                if (current.IsComplete)
+                {
+                    if (best is null || current.Grade > best.Grade)
+                    {
+                        best = current;
+                    }
+                }
+            }
+            
+            if (best is not null)
+            {
+                return best.GetSummary();
+            }
+            else
+            {
+                return null;
+            }
+            
+            // LINQ version. Not tested, but I think it should work.
+            // Assignment best = _assignments
+            //     .Values
+            //     .Where(a => a.IsComplete)
+            //     .Aggregate(
+            //         (Assignment)null, 
+            //         (accum, a) => accum is null || a.Grade > accum.Grade ? a : accum
+            //     );
+            // return best?.GetSummary();
+        }
         
     }
 }
