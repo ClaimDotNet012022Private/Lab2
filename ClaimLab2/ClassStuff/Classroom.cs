@@ -168,5 +168,41 @@ namespace ClaimLab2.ClassStuff
              //     .OrderByDescending(s => s.GetAverageGrade())
              //     .FirstOrDefault();
         }
+        
+        public Student GetWorstStudent()
+        {
+             Student worst = null;
+             double worstAvg = double.PositiveInfinity;   // Could also use double.MaxValue, but this is more expressive.
+            
+             foreach (KeyValuePair<string,Student> kvp in _students)
+             {
+                 Student current = kvp.Value;
+                 double currentAvg = current.GetAverageGrade();
+            
+                 // If currentAvg is NaN, any comparison will return false
+                 // (so don't replace worst if current doesn't have a grade).
+                 // If worstAvg hasn't been changed, any currentAvg that is
+                 // a number will be lesser (so if current is the first
+                 // student with a grade, replace worst).
+                 // If worstAvg has been changed, then replace worst only if
+                 // current is worse.
+                 if (currentAvg < worstAvg)
+                 {
+                     worst = current;
+                     worstAvg = currentAvg;
+                 }
+             }
+            
+             return worst;
+
+            
+            
+             // // One possible LINQ solution. We could use Min() instead
+             // // of OrderBy() (see comments in GetBestStudent()).
+             // return _students.Values
+             //     .Where(s => !double.IsNaN(s.GetAverageGrade()))
+             //     .OrderBy(s => s.GetAverageGrade())
+             //     .FirstOrDefault();
+        }
     }
 }

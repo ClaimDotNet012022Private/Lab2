@@ -27,6 +27,7 @@ namespace ClaimLab2.TextMenu
                 new MenuItem("Student Details", OpenStudentDetailMenu),
                 new MenuItem("Compare Students", CompareStudents),
                 new MenuItem("Top Student", ShowTopStudent),
+                new MenuItem("Bottom Student", ShowBottomStudent),
                 new MenuItem("Return to main menu", Quit),
             };
         }
@@ -183,6 +184,23 @@ namespace ClaimLab2.TextMenu
             //     ? "There is no student with a grade"
             //     : $"{bestName} is the top student";
             // Console.WriteLine(message);
+
+            return MenuResult.Continue;
+        }
+        
+        public MenuResult ShowBottomStudent()
+        {
+            Student worstStudent = _classroom.GetWorstStudent();
+            
+            // The ?. is null-conditional member access.
+            string worstName = worstStudent?.Name;
+            
+            // Ternary operator:
+            //     condition ? value-if-true : value-if-false
+            string message = (worstName is null)
+                ? "There is no student with a grade"
+                : $"{worstName} is the bottom student";
+            Console.WriteLine(message);
 
             return MenuResult.Continue;
         }

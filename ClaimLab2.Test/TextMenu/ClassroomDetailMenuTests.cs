@@ -214,13 +214,10 @@ TestValue2");
         
         
         [TestMethod]
-        public void Test_ShowTopStudent_NoStudents_ReturnsContinue()
+        public void Test_ShowTopStudent_NoStudents_ReturnsContinueWithNoException()
         {
-            // One purpose of this test is to make sure we
-            // don't throw an exception when there are no students.
-            // (If we're not careful, it would be easy to throw a
-            // NullReferenceException).
-            // If an exception is thrown, the test will fail.
+            // If we're not careful, it would be easy for this method
+            // to throw a NullReferenceException, which we don't want.
             
             // Arrange
             StringReader testInput = new StringReader("");
@@ -231,7 +228,31 @@ TestValue2");
             // Act
             MenuResult actual = target.ShowTopStudent();
 
-            // Assert.
+            // Assert. If an exception was thrown, the test already failed.
+            Assert.AreEqual(expected, actual);
+            
+            
+            testInput.Dispose();
+        }
+        
+        
+        
+        [TestMethod]
+        public void Test_ShowBottomStudent_NoStudents_ReturnsContinueWithNoException()
+        {
+            // If we're not careful, it would be easy for this method
+            // to throw a NullReferenceException, which we don't want.
+            
+            // Arrange
+            StringReader testInput = new StringReader("");
+            MenuResult expected = MenuResult.Continue;
+            Classroom classroom = new Classroom("TestClass");
+            ClassroomDetailMenu target = new ClassroomDetailMenu(classroom, testInput);
+
+            // Act
+            MenuResult actual = target.ShowBottomStudent();
+
+            // Assert. If an exception was thrown, the test has already failed.
             Assert.AreEqual(expected, actual);
             
             
