@@ -28,6 +28,7 @@ namespace ClaimLab2.TextMenu
                 new MenuItem("Compare Students", CompareStudents),
                 new MenuItem("Top Student", ShowTopStudent),
                 new MenuItem("Bottom Student", ShowBottomStudent),
+                new MenuItem("Show Average Grade", ShowAverageGrade),
                 new MenuItem("Return to main menu", Quit),
             };
         }
@@ -201,6 +202,23 @@ namespace ClaimLab2.TextMenu
                 ? "There is no student with a grade"
                 : $"{worstName} is the bottom student";
             Console.WriteLine(message);
+
+            return MenuResult.Continue;
+        }
+
+        public MenuResult ShowAverageGrade()
+        {
+            double avg = _classroom.GetAverageGrade();
+
+            if (double.IsNaN(avg))
+            {
+                Console.WriteLine("There is no student with a grade");
+            }
+            else
+            {
+                double rounded = Math.Round(avg, 4);
+                Console.WriteLine($"The average grade is {rounded}%");
+            }
 
             return MenuResult.Continue;
         }

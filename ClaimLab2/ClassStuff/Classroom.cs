@@ -204,5 +204,34 @@ namespace ClaimLab2.ClassStuff
              //     .OrderBy(s => s.GetAverageGrade())
              //     .FirstOrDefault();
         }
+
+        public double GetAverageGrade()
+        {
+            double sum = 0.0;
+            int count = 0;
+            foreach (KeyValuePair<string,Student> kvp in _students)
+            {
+                Student student = kvp.Value;
+                double studentAvg = student.GetAverageGrade();
+                
+                // Only count students who have a grade
+                if (!double.IsNaN(studentAvg))
+                {
+                    sum += studentAvg;
+                    count++;
+                }
+            }
+            
+            // If count == 0, this results in NaN
+            return sum / count;
+            
+            
+            // LINQ solution
+            // return _students.Values
+            //     .Select(s => s.GetAverageGrade())
+            //     .Where(n => !double.IsNaN(n))   // Filter out students without a grade
+            //     .DefaultIfEmpty(double.NaN)     // But don't allow an empty sequence (return NaN in that case)
+            //     .Average();
+        }
     }
 }
