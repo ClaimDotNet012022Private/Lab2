@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ClaimLab2.ClassStuff
 {
@@ -201,6 +199,5 @@ Number of Assignments: {GetAssignmentCount()}";
             //     );
             // return worst?.GetSummary();
         }
-        
     }
 }

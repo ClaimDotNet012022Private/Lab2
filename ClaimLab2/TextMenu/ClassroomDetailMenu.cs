@@ -25,6 +25,7 @@ namespace ClaimLab2.TextMenu
                 new MenuItem("Add Student", AddStudent),
                 new MenuItem("Remove Student", RemoveStudent),
                 new MenuItem("Student Details", OpenStudentDetailMenu),
+                new MenuItem("Compare Students", CompareStudents),
                 new MenuItem("Return to main menu", Quit),
             };
         }
@@ -118,6 +119,21 @@ namespace ClaimLab2.TextMenu
 
             StudentDetailMenu newMenu = new StudentDetailMenu(student, InputReader);
             newMenu.DoMenuLoop();
+
+            return MenuResult.Continue;
+        }
+
+        public MenuResult CompareStudents()
+        {
+            Console.WriteLine("Please enter the name of the first student to compare:");
+            string name1 = InputReader.ReadLine();
+            
+            Console.WriteLine("Please enter the name of the second student to compare:");
+            string name2 = InputReader.ReadLine();
+
+            string result = _classroom.CompareStudents(name1, name2);
+            
+            Console.WriteLine(result);
 
             return MenuResult.Continue;
         }
