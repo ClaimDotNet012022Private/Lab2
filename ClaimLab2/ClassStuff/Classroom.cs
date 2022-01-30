@@ -127,46 +127,46 @@ namespace ClaimLab2.ClassStuff
 
         public Student GetBestStudent()
         {
-            // Student best = null;
-            // double bestAvg = double.NegativeInfinity;   // Could also use double.MinValue, but this is more expressive.
-            //
-            // foreach (KeyValuePair<string,Student> kvp in _students)
-            // {
-            //     Student current = kvp.Value;
-            //     double currentAvg = current.GetAverageGrade();
-            //
-            //     // If currentAvg is NaN, any comparison will return false
-            //     // (so don't replace best if current doesn't have a grade).
-            //     // If bestAvg hasn't been changed, any currentAvg that is
-            //     // a number will be greater (so if current is the first
-            //     // student with a grade, replace best).
-            //     // If bestAvg has been changed, then replace best only if
-            //     // current is better.
-            //     if (currentAvg > bestAvg)
-            //     {
-            //         best = current;
-            //         bestAvg = currentAvg;
-            //     }
-            // }
+             Student best = null;
+             double bestAvg = double.NegativeInfinity;   // Could also use double.MinValue, but this is more expressive.
+            
+             foreach (KeyValuePair<string,Student> kvp in _students)
+             {
+                 Student current = kvp.Value;
+                 double currentAvg = current.GetAverageGrade();
+            
+                 // If currentAvg is NaN, any comparison will return false
+                 // (so don't replace best if current doesn't have a grade).
+                 // If bestAvg hasn't been changed, any currentAvg that is
+                 // a number will be greater (so if current is the first
+                 // student with a grade, replace best).
+                 // If bestAvg has been changed, then replace best only if
+                 // current is better.
+                 if (currentAvg > bestAvg)
+                 {
+                     best = current;
+                     bestAvg = currentAvg;
+                 }
+             }
+            
+             return best;
 
             
-            //return best;
-
             
-            
-            // One possible LINQ solution.
-            // We could use Max(), but either Student would need to implement
-            // IComparable<Student>, or we would need an implementation of
-            // IComparer<Student>. Max() also throws an exception if the sequence
-            // is empty, so we would need to handle that. On the other hand, Max()
-            // is more efficient than OrderBy(), and it's more expressive of the
-            // intent.
-            // I'm not sure whether OrderBy() and OrderByDescending() handle NaN,
-            // so filter those out using Where().
-            return _students.Values
-                .Where(s => !double.IsNaN(s.GetAverageGrade()))
-                .OrderByDescending(s => s.GetAverageGrade())
-                .FirstOrDefault();
+             // // One possible LINQ solution.
+             // // We could use Max(), but either Student would need to implement
+             // // IComparable<Student>, or we would need an implementation of
+             // // IComparer<Student> (the other versions of Max would return the
+             // // average grade, not the entire Student object). Max() also throws
+             // // an exception if the sequence is empty, so we would need to handle
+             // // that. On the other hand, Max() is more efficient than OrderBy(),
+             // // and it's more expressive of the intent.
+             // // I'm not sure whether OrderBy() and OrderByDescending() handle NaN,
+             // // so filter those out using Where().
+             // return _students.Values
+             //     .Where(s => !double.IsNaN(s.GetAverageGrade()))
+             //     .OrderByDescending(s => s.GetAverageGrade())
+             //     .FirstOrDefault();
         }
     }
 }
