@@ -1,5 +1,3 @@
-using System;
-
 namespace ClaimLab2.ClassStuff
 {
     public class Assignment

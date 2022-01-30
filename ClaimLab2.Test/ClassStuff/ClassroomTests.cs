@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.IO;
 using ClaimLab2.ClassStuff;
-using ClaimLab2.TextMenu;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ClaimLab2.Test.ClassStuff
@@ -207,6 +205,107 @@ namespace ClaimLab2.Test.ClassStuff
 
             // Assert
             Assert.AreEqual(expected, actual);
+        }
+        
+        
+        
+        
+        
+        [TestMethod]
+        public void Test_CompareStudents_StudentDoesNotExist_ReturnsErrorMessage()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string compareName1 = inputName1;
+            string compareName2 = "DoesNotExist";
+            Classroom target = new Classroom("TestClass");
+            target.TryAddStudent(inputName1);
+            target.TryAddStudent(inputName2);
+            target.TryAddStudent(inputName3);
+            
+            // Act
+            string actual = target.CompareStudents(compareName1, compareName2);
+
+            // Assert
+            Assert.IsTrue(actual.Contains("exist"));
+        }
+        
+        [TestMethod]
+        public void Test_CompareStudents_NoGrade_ReturnsErrorMessage()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string compareName1 = inputName1;
+            string compareName2 = inputName3;
+            Classroom target = new Classroom("TestClass");
+            target.TryAddStudent(inputName1);
+            target.TryAddStudent(inputName2);
+            target.TryAddStudent(inputName3);
+            
+            // Act
+            string actual = target.CompareStudents(compareName1, compareName2);
+
+            // Assert
+            Assert.IsTrue(actual.Contains("no average grade"));
+        }
+        
+        [TestMethod]
+        public void Test_CompareStudents_ValidInput_ReturnsStudentWithHighestAverageGrade()
+        {
+            // This "Arrange" step is getting pretty involved. This is
+            // a place where mocking and dependency injection could be
+            // useful. Either that, or it's a sign that I'm violating the
+            // Single Responsibility rule, and CompareStudents should
+            // belong somewhere else. More likely the latter.
+            // (Even if the core logic of the method is moved somewhere
+            // else, it still needs to be exposed through ClassRoom to
+            // avoid violating the Law of Demeter. The ClassRoom Details
+            // menu goes through Classroom for everything - it doesn't
+            // manipulate the Classroom's students directly. But if
+            // the core logic is more easily testable, then we can
+            // remove this test and have less of a gap in coverage.
+            // Or with dependency injection and mocks, we could just
+            // have one Classroom method test that simply verifies
+            // that the core logic method gets called with the right
+            // parameters.)
+            
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string compareName1 = inputName1;
+            string compareName2 = inputName3;
+            double grade1_1 = 20;
+            double grade1_2 = 100; // Avg 60, max 100
+            double grade2_1 = 93;
+            double grade2_2 = 87;  // Avg 90, max 93
+            string expected = inputName3;   // Has lower max but higher avg
+            Classroom target = new Classroom("TestClass");
+            target.TryAddStudent(inputName1);
+            target.TryAddStudent(inputName2);
+            target.TryAddStudent(inputName3);
+            Student student1 = target.GetStudent(inputName1);
+            student1.TryAddAssignment(inputName1);
+            student1.TryAddAssignment(inputName2);
+            student1.TryAddAssignment(inputName3);
+            student1.TryGradeAssignment(inputName1, grade1_1);
+            student1.TryGradeAssignment(inputName2, grade1_2);
+            Student student2 = target.GetStudent(compareName2);
+            student2.TryAddAssignment(inputName1);
+            student2.TryAddAssignment(inputName2);
+            student2.TryAddAssignment(inputName3);
+            student2.TryGradeAssignment(inputName3, grade2_1);
+            student2.TryGradeAssignment(inputName2, grade2_2);
+            
+            // Act
+            string actual = target.CompareStudents(compareName1, compareName2);
+
+            // Assert
+            Assert.IsTrue(actual.Contains(expected));
         }
     }
 }
