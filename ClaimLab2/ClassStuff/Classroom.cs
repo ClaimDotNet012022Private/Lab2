@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace ClaimLab2.ClassStuff
@@ -62,8 +63,15 @@ namespace ClaimLab2.ClassStuff
             return summaries;
         }
 
-        public string CompareStudents(string name1, string name2)
+        public StudentCompareResult CompareStudents(string name1, string name2)
         {
+            // The comment below is from my original implementation. In that
+            // implementation, I was directly returning the string to display
+            // in the menu. That's a clear violation of the Single Responsibility
+            // Principle. Returning an enum alleviates some of the pain. (Note,
+            // I don't consider an enum to be a "single-use" class, since we're
+            // still just returning a single value.)
+            
             // I've made a decision to avoid:
             // - Exceptions
             // - out parameters (and ref parameters)
@@ -82,11 +90,12 @@ namespace ClaimLab2.ClassStuff
             // distinguish between the various problems.
             
             
+            
             bool student1Found = _students.TryGetValue(name1, out Student student1);
             bool student2Found = _students.TryGetValue(name2, out Student student2);
             if (!(student1Found && student2Found))
             {
-                return "One or both students does/do not exist";
+                return StudentCompareResult.StudentNotFound;
             }
 
             // If stu1 - stu2 > 0, then stu1 > stu2 
@@ -98,19 +107,19 @@ namespace ClaimLab2.ClassStuff
             // if/else if.
             if (double.IsNaN(difference))
             {
-                return "One or both students has/have no average grade.";
+                return StudentCompareResult.NoAverageGrade;
+            }
+            else if (Math.Abs(difference) < 0.0000001)  // Give a small space around zero because floating-point math
+            {
+                return StudentCompareResult.Equal;
             }
             else if (difference < 0.0)
             {
-                return $"{name2} has the higher grade.";
-            }
-            else if (difference == 0.0)
-            {
-                return $"{name1} and {name2} have the same grade.";
+                return StudentCompareResult.LessThan;
             }
             else
             {
-                return $"{name1} has the higher grade.";
+                return StudentCompareResult.GreaterThan;
             }
             
         }

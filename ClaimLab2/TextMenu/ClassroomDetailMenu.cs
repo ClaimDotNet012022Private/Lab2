@@ -131,9 +131,29 @@ namespace ClaimLab2.TextMenu
             Console.WriteLine("Please enter the name of the second student to compare:");
             string name2 = InputReader.ReadLine();
 
-            string result = _classroom.CompareStudents(name1, name2);
-            
-            Console.WriteLine(result);
+            StudentCompareResult result = _classroom.CompareStudents(name1, name2);
+
+            switch (result)
+            {
+                case StudentCompareResult.StudentNotFound:
+                    Console.WriteLine("One or both students does/do not exist.");
+                    break;
+                case StudentCompareResult.NoAverageGrade:
+                    Console.WriteLine("One or both students has/have no average grade.");
+                    break;
+                case StudentCompareResult.LessThan:
+                    Console.WriteLine($"{name2} has the higher grade.");
+                    break;
+                case StudentCompareResult.Equal:
+                    Console.WriteLine($"{name1} and {name2} have the same grade.");
+                    break;
+                case StudentCompareResult.GreaterThan:
+                    Console.WriteLine($"{name1} has the higher grade.");
+                    break;
+                default:    // Only hit the default if we forgot an enum value.
+                    Console.WriteLine("An unexpected error occurred");
+                    break;
+            }
 
             return MenuResult.Continue;
         }
