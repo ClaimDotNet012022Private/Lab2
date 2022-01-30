@@ -508,5 +508,84 @@ namespace ClaimLab2.Test.ClassStuff
             // Assert
             Assert.AreEqual(expected, actual.Name);
         }
+        
+        
+        
+        
+        
+        [TestMethod]
+        public void Test_GetAverageGrade_NoGradedStudent_ReturnsNaN()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            Classroom target = new Classroom("TestClass");
+            target.TryAddStudent(inputName1);
+            target.TryAddStudent(inputName2);
+            target.TryAddStudent(inputName3);
+            
+            // Act
+            double actual = target.GetAverageGrade();
+
+            // Assert
+            Assert.IsTrue(double.IsNaN(actual));
+        }
+        
+        [TestMethod]
+        public void Test_GetAverageGrade_ValidInput_ReturnsUnweightedAverage()
+        {
+            // (Same notes about the Arrange step here as above)
+            
+            // Arrange
+            string studentName1 = "TestValue1";
+            string studentName2 = "TestValue2";
+            string studentName3 = "TestValue3";
+            string assignmentName1 = "TestValue1";
+            string assignmentName2 = "TestValue2";
+            string assignmentName3 = "TestValue3";
+            string assignmentName4 = "TestValue4";
+            double grade1_1 = 10.0;
+            double grade1_2 = 20.0;   // avg1 == 15
+            double grade2_1 = 30.0;
+            double grade2_2 = 40.0;
+            double grade2_3 = 50.0;   // avg2 == 40
+            double grade3_1 = 60.0;
+            double grade3_2 = 70.0;
+            double grade3_3 = 80.0;
+            double grade3_4 = 90.0;   // avg3 = 75
+            double expected = (15.0 + 40.0 + 75.0) / 3;
+            Classroom target = new Classroom("TestClass");
+            target.TryAddStudent(studentName1);
+            target.TryAddStudent(studentName2);
+            target.TryAddStudent(studentName3);
+            Student student1 = target.GetStudent(studentName1);
+            student1.TryAddAssignment(assignmentName1);
+            student1.TryAddAssignment(assignmentName2);
+            student1.TryGradeAssignment(assignmentName1, grade1_1);
+            student1.TryGradeAssignment(assignmentName2, grade1_2);
+            Student student2 = target.GetStudent(studentName2);
+            student2.TryAddAssignment(assignmentName1);
+            student2.TryAddAssignment(assignmentName2);
+            student2.TryAddAssignment(assignmentName3);
+            student2.TryGradeAssignment(assignmentName1, grade2_1);
+            student2.TryGradeAssignment(assignmentName2, grade2_2);
+            student2.TryGradeAssignment(assignmentName3, grade2_3);
+            Student student3 = target.GetStudent(studentName3);
+            student3.TryAddAssignment(assignmentName1);
+            student3.TryAddAssignment(assignmentName2);
+            student3.TryAddAssignment(assignmentName3);
+            student3.TryAddAssignment(assignmentName4);
+            student3.TryGradeAssignment(assignmentName1, grade3_1);
+            student3.TryGradeAssignment(assignmentName2, grade3_2);
+            student3.TryGradeAssignment(assignmentName3, grade3_3);
+            student3.TryGradeAssignment(assignmentName4, grade3_4);
+            
+            // Act
+            double actual = target.GetAverageGrade();
+
+            // Assert
+            Assert.AreEqual(expected, actual, 0.000001);
+        }
     }
 }

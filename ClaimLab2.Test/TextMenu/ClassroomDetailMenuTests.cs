@@ -258,5 +258,29 @@ TestValue2");
             
             testInput.Dispose();
         }
+        
+        
+        
+        [TestMethod]
+        public void Test_ShowAverageGrade_NoStudents_ReturnsContinueWithNoException()
+        {
+            // If we're not careful, it would be easy for this method
+            // to throw a NullReferenceException, which we don't want.
+            
+            // Arrange
+            StringReader testInput = new StringReader("");
+            MenuResult expected = MenuResult.Continue;
+            Classroom classroom = new Classroom("TestClass");
+            ClassroomDetailMenu target = new ClassroomDetailMenu(classroom, testInput);
+
+            // Act
+            MenuResult actual = target.ShowAverageGrade();
+
+            // Assert. If an exception was thrown, the test has already failed.
+            Assert.AreEqual(expected, actual);
+            
+            
+            testInput.Dispose();
+        }
     }
 }
