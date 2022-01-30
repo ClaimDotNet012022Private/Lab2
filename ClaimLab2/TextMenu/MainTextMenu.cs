@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ClaimLab2.ClassStuff;
 
 namespace ClaimLab2.TextMenu
@@ -44,7 +45,7 @@ namespace ClaimLab2.TextMenu
         {
             if (_classRooms.Count == 0)
             {
-                Console.WriteLine("There are no classrooms to display");
+                Console.WriteLine("There are no classrooms.");
             }
 
             foreach (KeyValuePair<string,Classroom> kvp in _classRooms)
@@ -79,9 +80,9 @@ namespace ClaimLab2.TextMenu
 
         public MenuResult RemoveClassroom()
         {
-            bool shouldRemove = PromptForExistingClassroom(out string className);
+            string className = PromptForExistingClassroom();
 
-            if (shouldRemove)
+            if (className is not null)
             {
                 _classRooms.Remove(className);
             }
@@ -92,8 +93,8 @@ namespace ClaimLab2.TextMenu
 
         public MenuResult OpenClassroomDetailMenu()
         {
-            bool shouldOpen = PromptForExistingClassroom(out string className);
-            if (shouldOpen)
+            string className = PromptForExistingClassroom();
+            if (className is not null)
             {
                 Classroom classroom = _classRooms[className];
                 ClassroomDetailMenu detailMenu = new ClassroomDetailMenu(classroom, InputReader);
@@ -111,22 +112,20 @@ namespace ClaimLab2.TextMenu
         }
         
         
-        // Returns true if there are any classrooms to prompt for,
-        // false otherwise.
-        private bool PromptForExistingClassroom(out string className)
+        // Returns null if there were no classrooms to prompt for.
+        private string PromptForExistingClassroom()
         {
+            ShowClassrooms();
+            
             // Don't want to get stuck asking the user for a class if
             // there isn't any class to remove.
             if (_classRooms.Count == 0)
             {
-                Console.WriteLine("There are no classrooms.");
-                {
-                    className = null;
-                    return false;
-                }
+                    return null;
             }
 
             bool succeeded;
+            string className;
             do
             {
                 Console.WriteLine("Please enter the name of a classroom:");
@@ -139,7 +138,7 @@ namespace ClaimLab2.TextMenu
                 }
             } while (!succeeded);
 
-            return true;
+            return className;
         }
 
     }
