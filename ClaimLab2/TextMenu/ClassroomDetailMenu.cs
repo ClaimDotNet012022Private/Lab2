@@ -26,6 +26,7 @@ namespace ClaimLab2.TextMenu
                 new MenuItem("Remove Student", RemoveStudent),
                 new MenuItem("Student Details", OpenStudentDetailMenu),
                 new MenuItem("Compare Students", CompareStudents),
+                new MenuItem("Top Student", ShowTopStudent),
                 new MenuItem("Return to main menu", Quit),
             };
         }
@@ -154,6 +155,34 @@ namespace ClaimLab2.TextMenu
                     Console.WriteLine("An unexpected error occurred");
                     break;
             }
+
+            return MenuResult.Continue;
+        }
+
+        public MenuResult ShowTopStudent()
+        {
+            Student bestStudent = _classroom.GetBestStudent();
+            
+            // The ?. is null-conditional member access. It's like
+            // normal member access (just using .), but it doesn't
+            // throw an exception if bestStudent is null.
+            string bestName = bestStudent?.Name;
+
+            if (bestName is null)
+            {
+                Console.WriteLine("There is no student with a grade");
+            }
+            else
+            {
+                Console.WriteLine($"{bestName} is the top student");
+            }
+            
+            // // Equivalent using a ternary operator (Note, this is just two
+            // // statements. The first is split onto 3 lines for legibility):
+            // string message = (bestName is null)
+            //     ? "There is no student with a grade"
+            //     : $"{bestName} is the top student";
+            // Console.WriteLine(message);
 
             return MenuResult.Continue;
         }
