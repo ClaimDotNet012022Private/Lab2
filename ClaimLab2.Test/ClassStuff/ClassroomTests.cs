@@ -212,7 +212,7 @@ namespace ClaimLab2.Test.ClassStuff
         
         
         [TestMethod]
-        public void Test_CompareStudents_StudentDoesNotExist_ReturnsErrorMessage()
+        public void Test_CompareStudents_StudentDoesNotExist_ReturnsStudentNotFound()
         {
             // Arrange
             string inputName1 = "TestValue1";
@@ -220,20 +220,21 @@ namespace ClaimLab2.Test.ClassStuff
             string inputName3 = "TestValue3";
             string compareName1 = inputName1;
             string compareName2 = "DoesNotExist";
+            StudentCompareResult expected = StudentCompareResult.StudentNotFound;
             Classroom target = new Classroom("TestClass");
             target.TryAddStudent(inputName1);
             target.TryAddStudent(inputName2);
             target.TryAddStudent(inputName3);
             
             // Act
-            string actual = target.CompareStudents(compareName1, compareName2);
+            StudentCompareResult actual = target.CompareStudents(compareName1, compareName2);
 
             // Assert
-            Assert.IsTrue(actual.Contains("exist"));
+            Assert.AreEqual(expected, actual);
         }
         
         [TestMethod]
-        public void Test_CompareStudents_NoGrade_ReturnsErrorMessage()
+        public void Test_CompareStudents_NoGrade_ReturnsNoAverageGrade()
         {
             // Arrange
             string inputName1 = "TestValue1";
@@ -241,20 +242,21 @@ namespace ClaimLab2.Test.ClassStuff
             string inputName3 = "TestValue3";
             string compareName1 = inputName1;
             string compareName2 = inputName3;
+            StudentCompareResult expected = StudentCompareResult.NoAverageGrade;
             Classroom target = new Classroom("TestClass");
             target.TryAddStudent(inputName1);
             target.TryAddStudent(inputName2);
             target.TryAddStudent(inputName3);
             
             // Act
-            string actual = target.CompareStudents(compareName1, compareName2);
+            StudentCompareResult actual = target.CompareStudents(compareName1, compareName2);
 
             // Assert
-            Assert.IsTrue(actual.Contains("no average grade"));
+            Assert.AreEqual(expected, actual);
         }
         
         [TestMethod]
-        public void Test_CompareStudents_ValidInput_ReturnsStudentWithHighestAverageGrade()
+        public void Test_CompareStudents_FirstHasLowerGrade_ReturnsLessThan()
         {
             // This "Arrange" step is getting pretty involved. This is
             // a place where mocking and dependency injection could be
@@ -283,12 +285,12 @@ namespace ClaimLab2.Test.ClassStuff
             double grade1_2 = 100; // Avg 60, max 100
             double grade2_1 = 93;
             double grade2_2 = 87;  // Avg 90, max 93
-            string expected = inputName3;   // Has lower max but higher avg
+            StudentCompareResult expected = StudentCompareResult.LessThan;   // Left side has lower max but higher avg
             Classroom target = new Classroom("TestClass");
             target.TryAddStudent(inputName1);
             target.TryAddStudent(inputName2);
             target.TryAddStudent(inputName3);
-            Student student1 = target.GetStudent(inputName1);
+            Student student1 = target.GetStudent(compareName1);
             student1.TryAddAssignment(inputName1);
             student1.TryAddAssignment(inputName2);
             student1.TryAddAssignment(inputName3);
@@ -302,10 +304,90 @@ namespace ClaimLab2.Test.ClassStuff
             student2.TryGradeAssignment(inputName2, grade2_2);
             
             // Act
-            string actual = target.CompareStudents(compareName1, compareName2);
+            StudentCompareResult actual = target.CompareStudents(compareName1, compareName2);
 
             // Assert
-            Assert.IsTrue(actual.Contains(expected));
+            Assert.AreEqual(expected, actual);
+        }
+        
+        [TestMethod]
+        public void Test_CompareStudents_FirstHasHigherGrade_ReturnsGreaterThan()
+        {
+            // (Same notes about the Arrange step here as above)
+            
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string compareName1 = inputName1;
+            string compareName2 = inputName3;
+            double grade2_1 = 20;
+            double grade2_2 = 100; // Avg 60, max 100
+            double grade1_1 = 93;
+            double grade1_2 = 87;  // Avg 90, max 93
+            StudentCompareResult expected = StudentCompareResult.GreaterThan;   // Right side has lower max but higher avg
+            Classroom target = new Classroom("TestClass");
+            target.TryAddStudent(inputName1);
+            target.TryAddStudent(inputName2);
+            target.TryAddStudent(inputName3);
+            Student student1 = target.GetStudent(compareName1);
+            student1.TryAddAssignment(inputName1);
+            student1.TryAddAssignment(inputName2);
+            student1.TryAddAssignment(inputName3);
+            student1.TryGradeAssignment(inputName1, grade1_1);
+            student1.TryGradeAssignment(inputName2, grade1_2);
+            Student student2 = target.GetStudent(compareName2);
+            student2.TryAddAssignment(inputName1);
+            student2.TryAddAssignment(inputName2);
+            student2.TryAddAssignment(inputName3);
+            student2.TryGradeAssignment(inputName3, grade2_1);
+            student2.TryGradeAssignment(inputName2, grade2_2);
+            
+            // Act
+            StudentCompareResult actual = target.CompareStudents(compareName1, compareName2);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
+        }
+        
+        [TestMethod]
+        public void Test_CompareStudents_SameAverage_ReturnsEqual()
+        {
+            // (Same notes about the Arrange step here as above)
+            
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            string compareName1 = inputName1;
+            string compareName2 = inputName3;
+            double grade1_1 = 23.7;
+            double grade1_2 = 99.8; // Avg 61.75, max 99.8
+            double grade2_1 = 72.1;
+            double grade2_2 = 51.4;  // Avg 61.75, max 51.4
+            StudentCompareResult expected = StudentCompareResult.Equal;   // Individual grades are different but average is the same
+            Classroom target = new Classroom("TestClass");
+            target.TryAddStudent(inputName1);
+            target.TryAddStudent(inputName2);
+            target.TryAddStudent(inputName3);
+            Student student1 = target.GetStudent(compareName1);
+            student1.TryAddAssignment(inputName1);
+            student1.TryAddAssignment(inputName2);
+            student1.TryAddAssignment(inputName3);
+            student1.TryGradeAssignment(inputName1, grade1_1);
+            student1.TryGradeAssignment(inputName2, grade1_2);
+            Student student2 = target.GetStudent(compareName2);
+            student2.TryAddAssignment(inputName1);
+            student2.TryAddAssignment(inputName2);
+            student2.TryAddAssignment(inputName3);
+            student2.TryGradeAssignment(inputName3, grade2_1);
+            student2.TryGradeAssignment(inputName2, grade2_2);
+            
+            // Act
+            StudentCompareResult actual = target.CompareStudents(compareName1, compareName2);
+
+            // Assert
+            Assert.AreEqual(expected, actual);
         }
     }
 }
