@@ -266,8 +266,8 @@ namespace ClaimLab2.Test.ClassStuff
             // (Even if the core logic of the method is moved somewhere
             // else, it still needs to be exposed through ClassRoom to
             // avoid violating the Law of Demeter. The ClassRoom Details
-            // menu goes through Classroom for everything - it doesn't
-            // manipulate the Classroom's students directly. But if
+            // menu goes through Classroom for almost everything - it doesn't
+            // manipulate the Classroom's students directly when possible. But if
             // the core logic is more easily testable, then we can
             // remove this test and have less of a gap in coverage.
             // Or with dependency injection and mocks, we could just
@@ -388,6 +388,66 @@ namespace ClaimLab2.Test.ClassStuff
 
             // Assert
             Assert.AreEqual(expected, actual);
+        }
+        
+        
+        
+        
+        [TestMethod]
+        public void Test_GetBestStudent_NoGradedStudent_ReturnsNull()
+        {
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            Classroom target = new Classroom("TestClass");
+            target.TryAddStudent(inputName1);
+            target.TryAddStudent(inputName2);
+            target.TryAddStudent(inputName3);
+            
+            // Act
+            Student actual = target.GetBestStudent();
+
+            // Assert
+            Assert.IsNull(actual);
+        }
+        
+        [TestMethod]
+        public void Test_GetBestStudent_ValidInput_ReturnsStudentWithHighestAverage()
+        {
+            // (Same notes about the Arrange step here as above)
+            
+            // Arrange
+            string inputName1 = "TestValue1";
+            string inputName2 = "TestValue2";
+            string inputName3 = "TestValue3";
+            double grade1_1 = 93;
+            double grade1_2 = 87;  // Avg 90, max 93
+            double grade2_1 = 20;
+            double grade2_2 = 100; // Avg 60, max 100
+            string expected = inputName1;   // student1 has lower max but higher avg
+            Classroom target = new Classroom("TestClass");
+            target.TryAddStudent(inputName1);
+            target.TryAddStudent(inputName2);
+            target.TryAddStudent(inputName3);
+            Student student1 = target.GetStudent(inputName1);
+            student1.TryAddAssignment(inputName1);
+            student1.TryAddAssignment(inputName2);
+            student1.TryAddAssignment(inputName3);
+            student1.TryGradeAssignment(inputName1, grade1_1);
+            student1.TryGradeAssignment(inputName2, grade1_2);
+            Student student2 = target.GetStudent(inputName2);
+            student2.TryAddAssignment(inputName1);
+            student2.TryAddAssignment(inputName2);
+            student2.TryAddAssignment(inputName3);
+            student2.TryGradeAssignment(inputName3, grade2_1);
+            student2.TryGradeAssignment(inputName2, grade2_2);
+            
+            // Act
+            Student actual = target.GetBestStudent();
+
+            // Assert
+            Assert.AreEqual(expected, actual.Name);
         }
     }
 }

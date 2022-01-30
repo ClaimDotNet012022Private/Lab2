@@ -210,5 +210,32 @@ TestValue2");
             
             testInput.Dispose();
         }
+        
+        
+        
+        [TestMethod]
+        public void Test_ShowTopStudent_NoStudents_ReturnsContinue()
+        {
+            // One purpose of this test is to make sure we
+            // don't throw an exception when there are no students.
+            // (If we're not careful, it would be easy to throw a
+            // NullReferenceException).
+            // If an exception is thrown, the test will fail.
+            
+            // Arrange
+            StringReader testInput = new StringReader("");
+            MenuResult expected = MenuResult.Continue;
+            Classroom classroom = new Classroom("TestClass");
+            ClassroomDetailMenu target = new ClassroomDetailMenu(classroom, testInput);
+
+            // Act
+            MenuResult actual = target.ShowTopStudent();
+
+            // Assert.
+            Assert.AreEqual(expected, actual);
+            
+            
+            testInput.Dispose();
+        }
     }
 }
