@@ -77,9 +77,12 @@ namespace ClaimLab2.TextMenu
 
         public MenuResult RemoveStudent()
         {
+            // No need to reinvent this when we already have
+            // the functionality in a method
+            ShowStudents();
+
             if (!_classroom.HasStudents())
             {
-                Console.WriteLine("There are no students to remove.");
                 return MenuResult.Continue;
             }
             
@@ -102,9 +105,12 @@ namespace ClaimLab2.TextMenu
 
         public MenuResult OpenStudentDetailMenu()
         {
+            // No need to reinvent this when we already have
+            // the functionality in a method
+            ShowStudents();
+            
             if (!_classroom.HasStudents())
             {
-                Console.WriteLine("There are no students.");
                 return MenuResult.Continue;
             }
 
@@ -128,6 +134,16 @@ namespace ClaimLab2.TextMenu
 
         public MenuResult CompareStudents()
         {
+            // No need to reinvent this when we already have
+            // the functionality in a method
+            ShowStudents();
+
+            if (!_classroom.HasStudents())
+            {
+                return MenuResult.Continue;
+            }
+            
+            
             Console.WriteLine("Please enter the name of the first student to compare:");
             string name1 = InputReader.ReadLine();
             
