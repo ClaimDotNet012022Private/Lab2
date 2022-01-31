@@ -58,9 +58,10 @@ namespace ClaimLab2.TextMenu
 
         public MenuResult RemoveAssignment()
         {
+            ShowAssignments();
+            
             if (_student.GetAssignmentCount() == 0)
             {
-                Console.WriteLine("There are no assignments.");
                 return MenuResult.Continue;
             }
 
@@ -82,6 +83,13 @@ namespace ClaimLab2.TextMenu
 
         public MenuResult GradeAssignment()
         {
+            ShowAssignments();
+            
+            if (_student.GetAssignmentCount() == 0)
+            {
+                return MenuResult.Continue;
+            }
+            
             bool isValid;
             do
             {
