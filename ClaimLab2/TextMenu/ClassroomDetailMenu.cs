@@ -24,11 +24,11 @@ namespace ClaimLab2.TextMenu
                 new MenuItem("Show Students", ShowStudents),
                 new MenuItem("Add Student", AddStudent),
                 new MenuItem("Remove Student", RemoveStudent),
-                new MenuItem("Student Details", OpenStudentDetailMenu),
+                new MenuItem("Student Details...", OpenStudentDetailMenu),
                 new MenuItem("Compare Students", CompareStudents),
-                new MenuItem("Top Student", ShowTopStudent),
-                new MenuItem("Bottom Student", ShowBottomStudent),
                 new MenuItem("Show Average Grade", ShowAverageGrade),
+                new MenuItem("Best Student", ShowTopStudent),
+                new MenuItem("Worst Student", ShowBottomStudent),
                 new MenuItem("Return to main menu", Quit),
             };
         }

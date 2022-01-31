@@ -21,7 +21,7 @@ namespace ClaimLab2.TextMenu
                 new MenuItem("Show Classrooms", ShowClassrooms),
                 new MenuItem("Add Classroom", AddClassroom),
                 new MenuItem("Remove Classroom", RemoveClassroom),
-                new MenuItem("Classroom Details", OpenClassroomDetailMenu),
+                new MenuItem("Classroom Details...", OpenClassroomDetailMenu),
                 new MenuItem("Exit Application", Quit)
             };
 

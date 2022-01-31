@@ -22,13 +22,13 @@ namespace ClaimLab2.TextMenu
 
             MenuItems = new List<MenuItem>
             {
+                new MenuItem("Show Summary", ShowSummary),
+                new MenuItem("Assign ", AddAssignment),
+                new MenuItem("Unassign", RemoveAssignment),
                 new MenuItem("Show Assignments", ShowAssignments),
-                new MenuItem("Add Assignment", AddAssignment),
-                new MenuItem("Remove Assignment", RemoveAssignment),
                 new MenuItem("Grade Assignment", GradeAssignment),
                 new MenuItem("Show Best Grade", ShowBestGrade),
                 new MenuItem("Show Worst Grade", ShowWorstGrade),
-                new MenuItem("Show Summary", ShowSummary),
                 new MenuItem("Return to Classroom Details", Quit),
             };
         }
