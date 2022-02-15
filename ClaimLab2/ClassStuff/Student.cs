@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ClaimLab2.ClassStuff
 {
@@ -43,19 +45,21 @@ Number of Assignments: {GetAssignmentCount()}";
                     sum += assignment.Grade;
                 }
             }
-            
+
+            return sum / count;
+
+
             // // We haven't covered LINQ yet, but this is an alternate solution.
             // // The Select() and DefaultIfEmpty() are there because we have to
             // // handle the possibility of no graded assignments.
-            // return _assignments.Values
-            //     .Where(a => a.IsComplete)
-            //     .Select(a => a.Grade)
-            //     .DefaultIfEmpty(Double.NaN)
-            //     .Average();
+            //return _assignments.Values
+            //    .Where(a => a.IsComplete)
+            //    .Select(a => a.Grade)
+            //    .DefaultIfEmpty(Double.NaN)
+            //    .Average();
 
-            return sum / count;
-            
-            
+
+
         }
 
         public bool AreAllAssignmentsComplete()
@@ -71,9 +75,12 @@ Number of Assignments: {GetAssignmentCount()}";
             return true;
 
             // LINQ:
-            // return _assignments.Values.All(a => a.IsComplete);
+            //return _assignments.Values.All(a => a.IsComplete);
         }
 
+        // GetAssignment only exists for testing purposes.
+        // The only place it is used in this project is in
+        // another method that is only for testing.
         public Assignment GetAssignment(string name)
         {
             if (_assignments.TryGetValue(name, out Assignment assignment))
@@ -86,6 +93,10 @@ Number of Assignments: {GetAssignmentCount()}";
 
         public bool TryAddAssignment(string name)
         {
+            //// If we allowed replacing an existing assignment
+            //// with a new one, we would just need one line:
+            //_assignments[name] = new Assignment(name);
+
             if (_assignments.ContainsKey(name))
             {
                 return false;
@@ -107,8 +118,8 @@ Number of Assignments: {GetAssignmentCount()}";
                 return false;
             }
 
-            assignment.Grade = grade;
-            assignment.IsComplete = true;
+            assignment.SetGrade(grade);
+
             return true;
         }
 

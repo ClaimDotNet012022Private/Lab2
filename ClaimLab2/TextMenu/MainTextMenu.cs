@@ -28,6 +28,8 @@ namespace ClaimLab2.TextMenu
             _classRooms = new Dictionary<string, Classroom>();
         }
 
+        // GetClassRoom only exists for testing convenience.
+        // It is not used anywhere in the project.
         public Classroom GetClassRoom(string name)
         {
             bool hasKey = _classRooms.TryGetValue(name, out Classroom result);

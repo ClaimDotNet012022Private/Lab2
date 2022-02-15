@@ -33,6 +33,8 @@ namespace ClaimLab2.TextMenu
             };
         }
 
+        // GetAssignment is only used for testing.
+        // It is not used anywhere in the project.
         public Assignment GetAssignment(string name)
         {
             return _student.GetAssignment(name);
@@ -156,18 +158,18 @@ namespace ClaimLab2.TextMenu
         
         public MenuResult ShowWorstGrade()
         {
-            string bestSummary = _student.GetBestAssignmentSummary();
+            string worstSummary = _student.GetWorstAssignmentSummary();
 
-            if (bestSummary is null)
+            if (worstSummary is null)
             {
-                bestSummary = "There are no graded assignments";
+                worstSummary = "There are no graded assignments";
             } 
             
-            Console.WriteLine(bestSummary);
-            
-            // // Null-coalescing operator:
-            // string best = _student.GetBestAssignmentSummary() ?? "There are no graded assignments";
-            // Console.WriteLine(best);
+            Console.WriteLine(worstSummary);
+
+            // Null-coalescing operator:
+            //string best = _student.GetBestAssignmentSummary() ?? "There are no graded assignments";
+            //Console.WriteLine(best);
 
             return MenuResult.Continue;
         }

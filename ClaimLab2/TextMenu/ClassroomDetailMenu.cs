@@ -33,6 +33,8 @@ namespace ClaimLab2.TextMenu
             };
         }
 
+        // GetStudent is only used by the unit tests.
+        // It is not used anywhere in this project.
         public Student GetStudent(string name)
         {
             return _classroom.GetStudent(name);
@@ -194,13 +196,13 @@ namespace ClaimLab2.TextMenu
             {
                 Console.WriteLine($"{bestName} is the top student");
             }
-            
-            // // Equivalent using a ternary operator (Note, this is just two
-            // // statements. The first is split onto 3 lines for legibility):
-            // string message = (bestName is null)
-            //     ? "There is no student with a grade"
-            //     : $"{bestName} is the top student";
-            // Console.WriteLine(message);
+
+            //// Equivalent using a ternary operator (Note, this is just two
+            //// statements. The first is split onto 3 lines for legibility):
+            //string message = (bestName is null)
+            //    ? "There is no student with a grade"
+            //    : $"{bestName} is the top student";
+            //Console.WriteLine(message);
 
             return MenuResult.Continue;
         }

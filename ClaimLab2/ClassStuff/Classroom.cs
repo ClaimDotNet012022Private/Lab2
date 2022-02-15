@@ -35,6 +35,13 @@ namespace ClaimLab2.ClassStuff
 
         public bool TryAddStudent(string name)
         {
+            //// If we wanted to allow the user to
+            //// create a new student with an existing
+            //// name (replacing the old student), we would
+            //// just need one line:
+            //_students[name] = new Student(name);
+
+
             bool isNotEmpty = !string.IsNullOrEmpty(name);
             bool success = isNotEmpty && !_students.ContainsKey(name);
             if (success)
@@ -151,22 +158,22 @@ namespace ClaimLab2.ClassStuff
             
              return best;
 
-            
-            
-             // // One possible LINQ solution.
-             // // We could use Max(), but either Student would need to implement
-             // // IComparable<Student>, or we would need an implementation of
-             // // IComparer<Student> (the other versions of Max would return the
-             // // average grade, not the entire Student object). Max() also throws
-             // // an exception if the sequence is empty, so we would need to handle
-             // // that. On the other hand, Max() is more efficient than OrderBy(),
-             // // and it's more expressive of the intent.
-             // // I'm not sure whether OrderBy() and OrderByDescending() handle NaN,
-             // // so filter those out using Where().
-             // return _students.Values
-             //     .Where(s => !double.IsNaN(s.GetAverageGrade()))
-             //     .OrderByDescending(s => s.GetAverageGrade())
-             //     .FirstOrDefault();
+
+
+            // // One possible LINQ solution.
+            // // We could use Max(), but either Student would need to implement
+            // // IComparable<Student>, or we would need an implementation of
+            // // IComparer<Student> (the other versions of Max would return the
+            // // average grade, not the entire Student object). Max() also throws
+            // // an exception if the sequence is empty, so we would need to handle
+            // // that. On the other hand, Max() is more efficient than OrderBy(),
+            // // and it's more expressive of the intent.
+            // // I'm not sure whether OrderBy() and OrderByDescending() handle NaN,
+            // // so filter those out using Where().
+            //return _students.Values
+            //    .Where(s => !double.IsNaN(s.GetAverageGrade()))
+            //    .OrderByDescending(s => s.GetAverageGrade())
+            //    .FirstOrDefault();
         }
         
         public Student GetWorstStudent()
@@ -224,14 +231,14 @@ namespace ClaimLab2.ClassStuff
             
             // If count == 0, this results in NaN
             return sum / count;
-            
-            
+
+
             // LINQ solution
-            // return _students.Values
-            //     .Select(s => s.GetAverageGrade())
-            //     .Where(n => !double.IsNaN(n))   // Filter out students without a grade
-            //     .DefaultIfEmpty(double.NaN)     // But don't allow an empty sequence (return NaN in that case)
-            //     .Average();
+            //return _students.Values
+            //    .Select(s => s.GetAverageGrade())
+            //    .Where(n => !double.IsNaN(n))   // Filter out students without a grade
+            //    .DefaultIfEmpty(double.NaN)     // But don't allow an empty sequence (return NaN in that case)
+            //    .Average();
         }
     }
 }
